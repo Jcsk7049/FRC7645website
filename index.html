@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NK MTC — FRC Team 7645</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── Reset ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white:    #ffffff;
+      --off:      #f8fafc;
+      --surface:  #f1f5f9;
+      --border:   #e2e8f0;
+      --muted:    #64748b;
+      --body:     #334155;
+      --heading:  #0f172a;
+      --blue:     #1d4ed8;
+      --blue-lt:  #3b82f6;
+      --blue-bg:  #eff6ff;
+      --gold:     #b45309;
+      --gold-bg:  #fffbeb;
+      --radius:   12px;
+      --shadow:   0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.05);
+      --shadow-lg:0 4px 6px rgba(0,0,0,.07), 0 12px 40px rgba(0,0,0,.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--white);
+      color: var(--body);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--off); }
+    ::-webkit-scrollbar-thumb { background: var(--blue-lt); border-radius: 3px; }
+
+    img { max-width: 100%; }
+    a { color: var(--blue); }
+
+    /* ─── Layout ────────────────────────────────────────────── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
+    section { padding: 88px 0; }
+
+    /* ─── Navbar ─────────────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: var(--heading);
+    }
+    .nav-icon {
+      width: 36px; height: 36px; border-radius: 9px;
+      background: var(--blue); display: flex; align-items: center; justify-content: center;
+    }
+    .nav-icon svg { width: 20px; height: 20px; fill: #fff; }
+    .nav-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; }
+    .nav-num  { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--muted); margin-top: 1px; }
+
+    .nav-links { display: flex; gap: 2px; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500;
+      padding: 6px 14px; border-radius: 8px; transition: all 0.18s;
+    }
+    .nav-links a:hover { color: var(--heading); background: var(--surface); }
+    .nav-links a.active { color: var(--blue); background: var(--blue-bg); }
+
+    .nav-cta {
+      background: var(--blue); color: #fff; text-decoration: none;
+      font-size: 14px; font-weight: 600; padding: 8px 18px;
+      border-radius: 8px; transition: background 0.18s;
+    }
+    .nav-cta:hover { background: #1e40af; }
+
+    /* ─── Hero ───────────────────────────────────────────────── */
+    #hero {
+      background: var(--heading);
+      padding: 100px 0 80px;
+      position: relative; overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 60% 50%, rgba(29,78,216,.28), transparent);
+      pointer-events: none;
+    }
+    #hero::after {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .hero-inner { position: relative; z-index: 1; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 1.5px;
+      color: #93c5fd; background: rgba(59,130,246,.15);
+      border: 1px solid rgba(59,130,246,.3);
+      padding: 5px 14px; border-radius: 999px; margin-bottom: 28px;
+      text-transform: uppercase;
+    }
+    .hero-eyebrow::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: #60a5fa; box-shadow: 0 0 8px #60a5fa;
+      animation: blink 2s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    .hero-layout { display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center; }
+
+    .hero-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(52px, 6.5vw, 88px);
+      font-weight: 700; line-height: 1.0;
+      color: #fff; letter-spacing: -2px;
+    }
+    .hero-title .accent { color: #60a5fa; }
+
+    .hero-sub {
+      margin-top: 10px;
+      font-family: 'Space Mono', monospace; font-size: 13px;
+      color: #64748b; letter-spacing: 2px;
+    }
+
+    .hero-desc {
+      margin-top: 24px; color: #94a3b8;
+      font-size: 16px; line-height: 1.8; max-width: 520px;
+    }
+
+    .hero-actions { display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap; }
+    .btn-white {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff; color: var(--heading); text-decoration: none;
+      padding: 11px 24px; border-radius: 9px; font-weight: 600; font-size: 14px;
+      transition: all .2s; box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    }
+    .btn-white:hover { background: #f1f5f9; transform: translateY(-1px); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid rgba(255,255,255,.2); color: #e2e8f0; text-decoration: none;
+      padding: 11px 24px; border-radius: 9px; font-weight: 500; font-size: 14px;
+      transition: all .2s;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,.5); color: #fff; background: rgba(255,255,255,.05); }
+
+    .hero-stats {
+      display: flex; gap: 24px; margin-top: 44px; padding-top: 36px;
+      border-top: 1px solid rgba(255,255,255,.08); flex-wrap: wrap;
+    }
+    .hero-stat-num {
+      font-family: 'Space Grotesk', sans-serif; font-size: 34px; font-weight: 700;
+      color: #fff; line-height: 1;
+    }
+    .hero-stat-label { font-size: 12px; color: #64748b; margin-top: 4px; }
+
+    /* Hero card */
+    .hero-card {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 16px; padding: 32px 28px;
+      min-width: 200px; text-align: center;
+    }
+    .hero-card-num {
+      font-family: 'Space Mono', monospace; font-size: 56px; font-weight: 700;
+      color: #60a5fa; line-height: 1;
+    }
+    .hero-card-label {
+      font-family: 'Space Grotesk', sans-serif; font-size: 12px;
+      letter-spacing: 3px; text-transform: uppercase; color: #64748b; margin-top: 8px;
+    }
+    .hero-card-dots { display: flex; justify-content: center; gap: 6px; margin-top: 20px; }
+    .hero-card-dots span {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,.15);
+    }
+    .hero-card-dots span.on { background: #3b82f6; }
+
+    /* ─── Section head ───────────────────────────────────────── */
+    .sec-head { margin-bottom: 56px; }
+    .sec-label {
+      font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--blue); display: block; margin-bottom: 12px;
+    }
+    .sec-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(28px, 3.5vw, 40px); font-weight: 700;
+      color: var(--heading); line-height: 1.15; letter-spacing: -0.5px;
+    }
+    .sec-desc { color: var(--muted); margin-top: 12px; max-width: 540px; font-size: 15px; }
+
+    /* ─── About ──────────────────────────────────────────────── */
+    #about { background: var(--white); }
+    .about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: start; }
+    .about-body p { color: var(--body); line-height: 1.85; margin-bottom: 16px; font-size: 15px; }
+    .about-body strong { color: var(--heading); font-weight: 600; }
+
+    .info-list { display: flex; flex-direction: column; gap: 12px; }
+    .info-row {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 18px; background: var(--off);
+      border: 1px solid var(--border); border-radius: 10px;
+    }
+    .info-icon {
+      width: 38px; height: 38px; flex-shrink: 0;
+      background: var(--blue-bg); border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .info-icon svg { width: 18px; height: 18px; stroke: var(--blue); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .info-key { font-size: 11px; color: var(--muted); font-weight: 500; letter-spacing: .5px; }
+    .info-val { font-size: 14px; font-weight: 600; color: var(--heading); margin-top: 1px; }
+
+    /* ─── Divisions ──────────────────────────────────────────── */
+    #team { background: var(--off); }
+    .div-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+
+    .div-card {
+      background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 28px; box-shadow: var(--shadow);
+      transition: box-shadow .2s, transform .2s, border-color .2s;
+      cursor: default; position: relative; overflow: hidden;
+    }
+    .div-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); border-color: #bfdbfe; }
+    .div-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    }
+    .div-card.d1::before { background: linear-gradient(90deg,#f97316,#fb923c); }
+    .div-card.d2::before { background: linear-gradient(90deg,var(--blue),#60a5fa); }
+    .div-card.d3::before { background: linear-gradient(90deg,#10b981,#34d399); }
+    .div-card.d4::before { background: linear-gradient(90deg,#f59e0b,#fbbf24); }
+
+    .div-num {
+      font-family: 'Space Mono', monospace; font-size: 11px;
+      color: var(--muted); margin-bottom: 16px;
+    }
+    .div-icon {
+      width: 46px; height: 46px; border-radius: 11px;
+      display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
+    }
+    .div-card.d1 .div-icon { background: #fff7ed; }
+    .div-card.d2 .div-icon { background: var(--blue-bg); }
+    .div-card.d3 .div-icon { background: #f0fdf4; }
+    .div-card.d4 .div-icon { background: var(--gold-bg); }
+    .div-icon svg { width: 24px; height: 24px; stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .div-card.d1 .div-icon svg { stroke: #f97316; }
+    .div-card.d2 .div-icon svg { stroke: var(--blue); }
+    .div-card.d3 .div-icon svg { stroke: #10b981; }
+    .div-card.d4 .div-icon svg { stroke: #f59e0b; }
+
+    .div-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; color: var(--heading); margin-bottom: 4px; }
+    .div-en   { font-size: 12px; color: var(--muted); margin-bottom: 12px; font-weight: 500; }
+    .div-desc { font-size: 14px; color: var(--body); line-height: 1.7; }
+
+    /* ─── Mentor ─────────────────────────────────────────────── */
+    #coaches { background: var(--white); }
+    .mentor-card {
+      display: flex; align-items: center; gap: 28px;
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 32px 36px;
+      box-shadow: var(--shadow); max-width: 560px;
+    }
+    .mentor-avatar {
+      width: 80px; height: 80px; flex-shrink: 0;
+      border-radius: 50%; background: var(--blue-bg);
+      border: 3px solid #bfdbfe;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 700;
+      color: var(--blue);
+    }
+    .mentor-name { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; color: var(--heading); }
+    .mentor-role { font-size: 14px; color: var(--muted); margin-top: 4px; }
+    .mentor-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 10px; font-size: 12px; font-weight: 600;
+      background: var(--blue-bg); color: var(--blue);
+      border: 1px solid #bfdbfe; padding: 4px 12px; border-radius: 999px;
+    }
+    .mentor-badge svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ─── Achievements ───────────────────────────────────────── */
+    #achievements { background: var(--off); }
+
+    .timeline { position: relative; }
+    .timeline::before {
+      content: ''; position: absolute; left: 116px; top: 8px; bottom: 8px;
+      width: 2px; background: var(--border);
+    }
+
+    .tl-item {
+      display: grid; grid-template-columns: 116px 1fr;
+      gap: 0 32px; margin-bottom: 8px;
+    }
+
+    .tl-year-col {
+      text-align: right; padding-top: 20px; position: relative;
+    }
+    .tl-year {
+      font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700;
+      color: var(--blue); display: inline-block;
+    }
+    .tl-dot {
+      position: absolute; right: -7px; top: 27px;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--blue); border: 2px solid var(--off);
+      box-shadow: 0 0 0 3px #bfdbfe;
+    }
+    .tl-dot.gold { background: #f59e0b; box-shadow: 0 0 0 3px #fde68a; }
+
+    .tl-body {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 22px 26px;
+      box-shadow: var(--shadow); margin-bottom: 16px;
+      transition: box-shadow .2s, border-color .2s;
+    }
+    .tl-body:hover { box-shadow: var(--shadow-lg); border-color: #bfdbfe; }
+
+    .tl-event { font-size: 12px; color: var(--muted); margin-bottom: 6px; font-weight: 500; }
+    .tl-title { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; color: var(--heading); margin-bottom: 8px; }
+    .tl-desc  { font-size: 14px; color: var(--body); line-height: 1.7; margin-bottom: 12px; }
+
+    .badge-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 999px;
+    }
+    .badge svg { width: 11px; height: 11px; }
+    .badge.b-gold { background: var(--gold-bg); color: var(--gold); border: 1px solid #fde68a; }
+    .badge.b-blue { background: var(--blue-bg); color: var(--blue);  border: 1px solid #bfdbfe; }
+    .badge svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ─── Sponsors ───────────────────────────────────────────── */
+    #sponsors { background: var(--white); }
+    .sp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .sp-card {
+      background: var(--off); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 24px 18px; text-align: center;
+      transition: box-shadow .2s, transform .2s, border-color .2s; cursor: default;
+    }
+    .sp-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); border-color: #bfdbfe; background: var(--white); }
+    .sp-icon {
+      width: 48px; height: 48px; margin: 0 auto 14px; border-radius: 12px;
+      background: var(--blue-bg); display: flex; align-items: center; justify-content: center;
+    }
+    .sp-icon svg { width: 22px; height: 22px; stroke: var(--blue); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .sp-name { font-weight: 600; font-size: 13px; color: var(--heading); line-height: 1.4; }
+    .sp-type { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+    /* ─── GitHub ─────────────────────────────────────────────── */
+    #github { background: var(--off); }
+    .gh-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+    .repo-card {
+      background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 24px; text-decoration: none; color: inherit; display: block;
+      box-shadow: var(--shadow);
+      transition: box-shadow .2s, transform .2s, border-color .2s;
+    }
+    .repo-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); border-color: #bfdbfe; }
+
+    .repo-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+    .repo-icon-wrap {
+      width: 38px; height: 38px; border-radius: 9px;
+      background: var(--blue-bg); display: flex; align-items: center; justify-content: center;
+    }
+    .repo-icon-wrap svg { width: 18px; height: 18px; stroke: var(--blue); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .repo-arrow {
+      width: 28px; height: 28px; border-radius: 7px;
+      background: var(--surface); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s;
+    }
+    .repo-card:hover .repo-arrow { background: var(--blue); border-color: var(--blue); }
+    .repo-arrow svg { width: 13px; height: 13px; stroke: var(--muted); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; transition: stroke .2s; }
+    .repo-card:hover .repo-arrow svg { stroke: #fff; }
+
+    .repo-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px; color: var(--heading); margin-bottom: 3px; }
+    .repo-season { font-size: 12px; color: var(--muted); margin-bottom: 10px; font-weight: 500; }
+    .repo-desc { font-size: 13px; color: var(--body); line-height: 1.65; margin-bottom: 14px; }
+    .repo-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .repo-tag {
+      font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 999px;
+      background: var(--surface); border: 1px solid var(--border); color: var(--muted);
+    }
+
+    /* ─── Footer ─────────────────────────────────────────────── */
+    footer {
+      background: var(--heading); color: #94a3b8;
+      padding: 60px 0 40px;
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px;
+      padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .footer-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; margin-bottom: 14px; }
+    .footer-brand-icon {
+      width: 36px; height: 36px; background: var(--blue); border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .footer-brand-icon svg { width: 20px; height: 20px; fill: #fff; }
+    .footer-brand-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; }
+    .footer-about { font-size: 14px; line-height: 1.75; max-width: 340px; }
+    .footer-col h5 {
+      font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 600;
+      letter-spacing: .5px; text-transform: uppercase; color: #cbd5e1; margin-bottom: 16px;
+    }
+    .footer-col a {
+      display: block; color: #64748b; font-size: 14px; text-decoration: none;
+      margin-bottom: 10px; transition: color .18s;
+    }
+    .footer-col a:hover { color: #e2e8f0; }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 32px; flex-wrap: wrap; gap: 12px;
+    }
+    .footer-copy { font-size: 13px; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { color: #64748b; font-size: 13px; text-decoration: none; transition: color .18s; }
+    .footer-links a:hover { color: #e2e8f0; }
+
+    /* ─── Divider ────────────────────────────────────────────── */
+    .rule { height: 1px; background: var(--border); }
+
+    /* ─── Fade-in ────────────────────────────────────────────── */
+    .fade { opacity: 0; transform: translateY(24px); transition: opacity .55s ease, transform .55s ease; }
+    .fade.visible { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: .08s; } .d2 { transition-delay: .16s; }
+    .d3 { transition-delay: .24s; } .d4 { transition-delay: .32s; }
+
+    /* ─── Responsive ─────────────────────────────────────────── */
+    @media (max-width: 860px) {
+      .hero-layout { grid-template-columns: 1fr; }
+      .hero-card  { display: none; }
+      .about-grid { grid-template-columns: 1fr; }
+      .div-grid   { grid-template-columns: 1fr; }
+      .sp-grid    { grid-template-columns: repeat(2,1fr); }
+      .gh-grid    { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; }
+      .nav-links  { display: none; }
+      .timeline::before { left: 80px; }
+      .tl-item { grid-template-columns: 80px 1fr; }
+    }
+    @media (max-width: 520px) {
+      .sp-grid { grid-template-columns: 1fr; }
+      .tl-item { grid-template-columns: 1fr; }
+      .timeline::before { display: none; }
+      .tl-year-col { text-align: left; padding-top: 0; margin-bottom: 8px; }
+      .tl-dot { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navbar ──────────────────────────────────────────────── -->
+<nav>
+  <div class="container">
+    <div class="nav-inner">
+      <a class="nav-brand" href="#hero">
+        <div class="nav-icon">
+          <!-- Gear -->
+          <svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </div>
+        <div>
+          <div class="nav-name">NK MTC</div>
+          <div class="nav-num">TEAM #7645</div>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="#about">關於我們</a>
+        <a href="#team">分工</a>
+        <a href="#coaches">指導老師</a>
+        <a href="#achievements">戰績</a>
+        <a href="#sponsors">贊助商</a>
+        <a href="#github">GitHub</a>
+      </div>
+      <a href="#achievements" class="nav-cta">歷年戰績</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Hero ────────────────────────────────────────────────── -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">FIRST Robotics Competition</div>
+      <div class="hero-layout">
+        <div>
+          <h1 class="hero-title">NK<span class="accent"> MTC</span></h1>
+          <div class="hero-sub">TEAM #7645 · TAIPEI, TAIWAN · EST. 2019</div>
+          <p class="hero-desc">
+            Nan Gang Manufacturing Team Challenge — 臺北市立南港高級工業職業學校 FRC 機器人隊。
+            秉持「涓滴成河，三川入海」精神，自 2019 年創隊即躋身世界舞台。
+          </p>
+          <div class="hero-actions">
+            <a href="#achievements" class="btn-white">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              歷年戰績
+            </a>
+            <a href="#github" class="btn-ghost">
+              <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58 0-.28-.01-1.03-.02-2.03-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.21.08 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23.96-.27 1.98-.4 3-.41 1.02.01 2.04.14 3 .41 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22 0 1.61-.01 2.9-.01 3.29 0 .32.21.7.82.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              開源專案
+            </a>
+          </div>
+          <div class="hero-stats">
+            <div>
+              <div class="hero-stat-num">2019</div>
+              <div class="hero-stat-label">創隊年份</div>
+            </div>
+            <div>
+              <div class="hero-stat-num">6+</div>
+              <div class="hero-stat-label">年賽季經歷</div>
+            </div>
+            <div>
+              <div class="hero-stat-num">7+</div>
+              <div class="hero-stat-label">國際獎項</div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-card">
+          <div class="hero-card-num">7645</div>
+          <div class="hero-card-label">NK · MTC</div>
+          <div class="hero-card-dots">
+            <span class="on"></span><span class="on"></span><span class="on"></span>
+            <span></span><span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ── About ──────────────────────────────────────────────── -->
+<section id="about">
+  <div class="container">
+    <div class="sec-head fade">
+      <span class="sec-label">01 — About</span>
+      <h2 class="sec-title">創隊介紹 &amp; 基本資訊</h2>
+      <p class="sec-desc">從南港工職出發，踏上 FIRST Robotics Competition 的世界舞台。</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-body fade">
+        <p>
+          NK MTC 全名 <strong>Nan Gang Manufacturing Team Challenge</strong>，是一支由
+          臺北市立南港高級工業職業學校學生組成的 FRC 機器人競賽隊伍，隊號 <strong>#7645</strong>。
+        </p>
+        <p>
+          自 2019 年以新秀之姿首度踏上 FRC 國際賽場，即獲 Detroit 世界錦標賽
+          「最高新秀排名獎（Highest Rookie Seed Award）」，此後逐年累積實力，
+          2025 年登上 Arizona North Regional 聯盟冠軍寶座。
+        </p>
+        <p>
+          我們以「<strong>涓滴成河，三川入海</strong>」為精神，結合機器人專業技能與人文素養，
+          培育未來工程師。NK MTC 於 2024 年榮獲教育部「教學卓越金質獎」，
+          是全國唯一獲此殊榮的技術型高中。
+        </p>
+      </div>
+      <div class="info-list fade d2">
+        <div class="info-row">
+          <div class="info-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          </div>
+          <div>
+            <div class="info-key">創隊年份 / ROOKIE YEAR</div>
+            <div class="info-val">2019</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div>
+            <div class="info-key">所屬學校</div>
+            <div class="info-val">臺北市立南港高級工業職業學校</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <div>
+            <div class="info-key">地點 / LOCATION</div>
+            <div class="info-val">臺北市南港區，台灣</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div>
+            <div class="info-key">目前隊員人數</div>
+            <div class="info-val">約 15 名學生成員</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ── Divisions ─────────────────────────────────────────── -->
+<section id="team">
+  <div class="container">
+    <div class="sec-head fade">
+      <span class="sec-label">02 — Divisions</span>
+      <h2 class="sec-title">隊伍分工 &amp; 組織架構</h2>
+      <p class="sec-desc">每個組別各司其職，共同打造一台足以征戰世界的機器人。</p>
+    </div>
+    <div class="div-grid">
+      <div class="div-card d1 fade">
+        <div class="div-num">01 / 04</div>
+        <div class="div-icon">
+          <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <div class="div-name">機械組</div>
+        <div class="div-en">MECHANICAL ENGINEERING</div>
+        <div class="div-desc">負責機器人結構設計與製造，包含底盤、傳動系統、執行機構的 CAD 建模與加工組裝，確保機構在激烈賽事中的強度與精準度。</div>
+      </div>
+      <div class="div-card d2 fade d2">
+        <div class="div-num">02 / 04</div>
+        <div class="div-icon">
+          <svg viewBox="0 0 24 24"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <div class="div-name">電子電路組</div>
+        <div class="div-en">ELECTRONICS &amp; CIRCUIT</div>
+        <div class="div-desc">負責機器人電控系統的規劃與接線，包含電力分配、感測器配置、馬達驅動電路設計，以及 RoboRIO、PDP 等 FRC 電控元件的整合。</div>
+      </div>
+      <div class="div-card d3 fade d3">
+        <div class="div-num">03 / 04</div>
+        <div class="div-icon">
+          <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <div class="div-name">程式組</div>
+        <div class="div-en">SOFTWARE &amp; PROGRAMMING</div>
+        <div class="div-desc">使用 Java / WPILib 撰寫機器人控制程式，開發自動駕駛路徑、AprilTag 視覺辨識與 Command-Based 子系統架構。</div>
+      </div>
+      <div class="div-card d4 fade d4">
+        <div class="div-num">04 / 04</div>
+        <div class="div-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="div-name">行政公關組</div>
+        <div class="div-en">BUSINESS &amp; OUTREACH</div>
+        <div class="div-desc">負責對外聯絡、贊助募集、社群媒體經營，以及 Impact Award 書面報告與 FIRST 精神推廣活動。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ── Mentor ─────────────────────────────────────────────── -->
+<section id="coaches">
+  <div class="container">
+    <div class="sec-head fade">
+      <span class="sec-label">03 — Mentor</span>
+      <h2 class="sec-title">指導老師</h2>
+      <p class="sec-desc">專業教師帶領隊員突破自我，在國際舞台嶄露頭角。</p>
+    </div>
+    <div class="mentor-card fade">
+      <div class="mentor-avatar">洪</div>
+      <div>
+        <div class="mentor-name">洪嘉駿 老師</div>
+        <div class="mentor-role">主要指導教師 · 機械設計</div>
+        <div class="mentor-badge">
+          <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          臺北市立南港高級工業職業學校
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ── Achievements ───────────────────────────────────────── -->
+<section id="achievements">
+  <div class="container">
+    <div class="sec-head fade">
+      <span class="sec-label">04 — Competition History</span>
+      <h2 class="sec-title">歷年戰績 &amp; 成果</h2>
+      <p class="sec-desc">從新秀到冠軍，每一年都是突破與成長的里程碑。</p>
+    </div>
+    <div class="timeline fade">
+
+      <!-- 2025 -->
+      <div class="tl-item">
+        <div class="tl-year-col">
+          <div class="tl-year">2025</div>
+          <div class="tl-dot gold"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-event">FRC Arizona North Regional · 美國亞利桑那州</div>
+          <div class="tl-title">聯盟冠軍 Alliance Champions</div>
+          <div class="tl-desc">NK MTC 2025 機器人與聯盟夥伴共同奪得冠軍聯盟殊榮，為學校及台灣 FRC 社群帶來最高光時刻。</div>
+          <div class="badge-row">
+            <span class="badge b-gold">
+              <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              聯盟冠軍
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2024 -->
+      <div class="tl-item">
+        <div class="tl-year-col">
+          <div class="tl-year">2024</div>
+          <div class="tl-dot gold"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-event">FRC Scottsdale Regional · 美國亞利桑那州</div>
+          <div class="tl-title">影像獎 &amp; 教學卓越金質獎</div>
+          <div class="tl-desc">榮獲 FRC Scottsdale Regional「Imagery Award in honor of Jack Kamen」。同年隊伍教學方案更勇奪教育部 113 年度「教學卓越金質獎」，成為全國唯一獲此殊榮的技術型高中。</div>
+          <div class="badge-row">
+            <span class="badge b-blue">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+              Imagery Award
+            </span>
+            <span class="badge b-gold">
+              <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              教學卓越金質獎
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2023 -->
+      <div class="tl-item">
+        <div class="tl-year-col">
+          <div class="tl-year">2023</div>
+          <div class="tl-dot"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-event">FRC Arizona Regional · 美國亞利桑那州</div>
+          <div class="tl-title">工程卓越獎 · 資格賽第六順位隊長</div>
+          <div class="tl-desc">資格賽第六順位晉升隊長，進入八強決賽，最終第四名。榮獲 Excellence in Engineering Award（工程卓越獎），展現卓越設計實力。</div>
+          <div class="badge-row">
+            <span class="badge b-blue">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+              Excellence in Engineering Award
+            </span>
+            <span class="badge b-blue">
+              <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              資格賽第 6 順位隊長
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2022 -->
+      <div class="tl-item">
+        <div class="tl-year-col">
+          <div class="tl-year">2022</div>
+          <div class="tl-dot"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-event">新北 × 鴻海 FRC 區域賽 · 台灣</div>
+          <div class="tl-title">亞軍聯盟 &amp; 最佳工程控制獎</div>
+          <div class="tl-desc">參加台灣本地舉辦的區域賽，榮獲「Alliance Runner-Up（亞軍聯盟）」及「Engineering Inspiration Award（最佳工程控制獎）」。</div>
+          <div class="badge-row">
+            <span class="badge b-blue">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+              Alliance Runner-Up
+            </span>
+            <span class="badge b-blue">
+              <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Engineering Inspiration Award
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2019 -->
+      <div class="tl-item">
+        <div class="tl-year-col">
+          <div class="tl-year">2019</div>
+          <div class="tl-dot gold"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-event">FRC Detroit World Championship · 美國密西根州</div>
+          <div class="tl-title">創隊首年 · 最高新秀排名獎</div>
+          <div class="tl-desc">NK MTC 正式誕生，以新秀之姿挑戰世界錦標賽，一舉獲得 Highest Rookie Seed Award，驚豔國際 FRC 社群。</div>
+          <div class="badge-row">
+            <span class="badge b-gold">
+              <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Highest Rookie Seed Award
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ── Sponsors ───────────────────────────────────────────── -->
+<section id="sponsors">
+  <div class="container">
+    <div class="sec-head fade">
+      <span class="sec-label">05 — Sponsors</span>
+      <h2 class="sec-title">贊助夥伴</h2>
+      <p class="sec-desc">感謝所有支持我們的贊助商與合作夥伴，讓夢想得以實現。</p>
+    </div>
+    <div class="sp-grid">
+      <div class="sp-card fade">
+        <div class="sp-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div class="sp-name">松山慈惠堂</div>
+        <div class="sp-type">主要贊助</div>
+      </div>
+      <div class="sp-card fade d1">
+        <div class="sp-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <div class="sp-name">Dacoms Corporation</div>
+        <div class="sp-type">技術贊助</div>
+      </div>
+      <div class="sp-card fade d2">
+        <div class="sp-icon"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+        <div class="sp-name">嘉成工業股份有限公司</div>
+        <div class="sp-type">製造贊助 · JIA CHENG INDUSTRY</div>
+      </div>
+      <div class="sp-card fade d3">
+        <div class="sp-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+        <div class="sp-name">台灣元山機器人協會</div>
+        <div class="sp-type">產業夥伴 · ESUNRA</div>
+      </div>
+      <div class="sp-card fade">
+        <div class="sp-icon"><svg viewBox="0 0 24 24"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+        <div class="sp-name">AI Robotics Hub</div>
+        <div class="sp-type">技術資源</div>
+      </div>
+      <div class="sp-card fade d1">
+        <div class="sp-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div class="sp-name">中部科學工業園區</div>
+        <div class="sp-type">政府資源</div>
+      </div>
+      <div class="sp-card fade d2">
+        <div class="sp-icon"><svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+        <div class="sp-name">台北市政府教育局</div>
+        <div class="sp-type">政府支持</div>
+      </div>
+      <div class="sp-card fade d3">
+        <div class="sp-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+        <div class="sp-name">ZEBRA TECHNOLOGIES TAIWAN</div>
+        <div class="sp-type">技術贊助</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ── GitHub ─────────────────────────────────────────────── -->
+<section id="github">
+  <div class="container">
+    <div class="sec-head fade">
+      <span class="sec-label">06 — Open Source</span>
+      <h2 class="sec-title">開源專案 GitHub 導覽</h2>
+      <p class="sec-desc">NK MTC 秉持開放原始碼精神，分享歷年機器人程式碼與技術文件。</p>
+    </div>
+    <div class="gh-grid">
+
+      <a href="https://github.com/FRC7645" target="_blank" rel="noopener" class="repo-card fade">
+        <div class="repo-top">
+          <div class="repo-icon-wrap">
+            <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          </div>
+          <div class="repo-arrow">
+            <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+          </div>
+        </div>
+        <div class="repo-name">FRC7645 GitHub 主頁</div>
+        <div class="repo-season">GitHub Organization</div>
+        <div class="repo-desc">所有歷年賽季機器人程式碼與開源資源的總入口。</div>
+        <div class="repo-tags"><span class="repo-tag">Organization</span><span class="repo-tag">FRC</span></div>
+      </a>
+
+      <a href="https://github.com/FRC7645/2025-robot" target="_blank" rel="noopener" class="repo-card fade d1">
+        <div class="repo-top">
+          <div class="repo-icon-wrap">
+            <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <div class="repo-arrow">
+            <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+          </div>
+        </div>
+        <div class="repo-name">2025 Robot Code</div>
+        <div class="repo-season">REEFSCAPE — 2025 賽季</div>
+        <div class="repo-desc">含自動路徑規劃、AprilTag 視覺定位與各子系統 Command-Based 實作。</div>
+        <div class="repo-tags"><span class="repo-tag">Java</span><span class="repo-tag">WPILib</span><span class="repo-tag">PathPlanner</span></div>
+      </a>
+
+      <a href="https://github.com/FRC7645/2024-robot" target="_blank" rel="noopener" class="repo-card fade d2">
+        <div class="repo-top">
+          <div class="repo-icon-wrap">
+            <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <div class="repo-arrow">
+            <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+          </div>
+        </div>
+        <div class="repo-name">2024 Robot Code</div>
+        <div class="repo-season">CRESCENDO — 2024 賽季</div>
+        <div class="repo-desc">含 Shooter 自動瞄準、Swerve Drive 底盤控制與 Limelight 視覺整合。</div>
+        <div class="repo-tags"><span class="repo-tag">Java</span><span class="repo-tag">WPILib</span><span class="repo-tag">Limelight</span></div>
+      </a>
+
+      <a href="https://github.com/FRC7645/2023-robot" target="_blank" rel="noopener" class="repo-card fade d3">
+        <div class="repo-top">
+          <div class="repo-icon-wrap">
+            <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <div class="repo-arrow">
+            <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+          </div>
+        </div>
+        <div class="repo-name">2023 Robot Code</div>
+        <div class="repo-season">CHARGED UP — 2023 賽季</div>
+        <div class="repo-desc">奪得 Excellence in Engineering Award 的賽季程式，含 Grid 自動對位系統。</div>
+        <div class="repo-tags"><span class="repo-tag">Java</span><span class="repo-tag">WPILib</span><span class="repo-tag">Vision</span></div>
+      </a>
+
+      <a href="https://github.com/FRC7645/2022-robot" target="_blank" rel="noopener" class="repo-card fade">
+        <div class="repo-top">
+          <div class="repo-icon-wrap">
+            <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <div class="repo-arrow">
+            <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+          </div>
+        </div>
+        <div class="repo-name">2022 Robot Code</div>
+        <div class="repo-season">RAPID REACT — 2022 賽季</div>
+        <div class="repo-desc">台灣本地賽獲亞軍聯盟的機器人程式，含 Cargo 射球與 Climb 爬升控制。</div>
+        <div class="repo-tags"><span class="repo-tag">Java</span><span class="repo-tag">WPILib</span><span class="repo-tag">Shooter</span></div>
+      </a>
+
+      <a href="https://www.thebluealliance.com/team/7645" target="_blank" rel="noopener" class="repo-card fade d1">
+        <div class="repo-top">
+          <div class="repo-icon-wrap">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <div class="repo-arrow">
+            <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+          </div>
+        </div>
+        <div class="repo-name">The Blue Alliance</div>
+        <div class="repo-season">官方賽事數據</div>
+        <div class="repo-desc">Team 7645 全歷年賽事成績、聯盟記錄與獎項紀錄。</div>
+        <div class="repo-tags"><span class="repo-tag">Stats</span><span class="repo-tag">Awards</span><span class="repo-tag">History</span></div>
+      </a>
+
+    </div>
+    <p style="text-align:center;color:var(--muted);font-size:12px;margin-top:28px;">
+      * GitHub 連結請依隊伍實際 Repository 位置更新
+    </p>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ── Footer ─────────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <a class="footer-brand" href="#hero">
+          <div class="footer-brand-icon">
+            <svg viewBox="0 0 24 24" fill="white"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </div>
+          <div class="footer-brand-name">NK MTC — Team 7645</div>
+        </a>
+        <p class="footer-about">臺北市立南港高級工業職業學校 FRC 機器人隊。自 2019 年創隊，以「涓滴成河，三川入海」精神，邁向世界舞台。</p>
+      </div>
+      <div class="footer-col">
+        <h5>快速連結</h5>
+        <a href="#about">關於我們</a>
+        <a href="#team">隊伍分工</a>
+        <a href="#coaches">指導老師</a>
+        <a href="#achievements">歷年戰績</a>
+        <a href="#sponsors">贊助商</a>
+        <a href="#github">GitHub</a>
+      </div>
+      <div class="footer-col">
+        <h5>外部資源</h5>
+        <a href="https://www.thebluealliance.com/team/7645" target="_blank" rel="noopener">The Blue Alliance</a>
+        <a href="https://frc-events.firstinspires.org/team/7645" target="_blank" rel="noopener">FIRST Inspires</a>
+        <a href="https://www.facebook.com/groups/335526080342138" target="_blank" rel="noopener">Facebook 社群</a>
+        <a href="https://www.nkhs.tp.edu.tw/" target="_blank" rel="noopener">南港高工官網</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 NK MTC FRC Team 7645 · 臺北市立南港高級工業職業學校</div>
+      <div class="footer-links">
+        <a href="https://www.firstinspires.org" target="_blank" rel="noopener">FIRST Inspires</a>
+        <a href="https://www.thebluealliance.com/team/7645" target="_blank" rel="noopener">Blue Alliance</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Sticky nav active link
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id);
+        });
+      }
+    });
+  }, { threshold: 0.4 });
+  sections.forEach(s => observer.observe(s));
+
+  // Fade-in on scroll
+  const fadeObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.fade').forEach(el => fadeObs.observe(el));
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (!t) return;
+      e.preventDefault();
+      window.scrollTo({ top: t.offsetTop - 72, behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
