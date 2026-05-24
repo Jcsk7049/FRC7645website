@@ -1,0 +1,13 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      // Public images must be readable (displayed on website pages)
+      allow get: if true;
+      // Prevent unauthenticated directory listing
+      allow list: if request.auth != null;
+      // Upload/delete requires login
+      allow write: if request.auth != null;
+    }
+  }
+}

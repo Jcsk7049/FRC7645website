@@ -1,0 +1,144 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function getUserData(auth) {
+      return get(/databases/$(database)/documents/users/$(auth.uid)).data;
+    }
+
+    function getUserRole(auth) {
+      return exists(/databases/$(database)/documents/users/$(auth.uid))
+        ? getUserData(auth).role 
+        : 'students';
+    }
+
+    // User Roles Collection
+    match /users/{userId} {
+      allow read: if isAuthenticated() && (
+        request.auth.uid == userId || 
+        getUserRole(request.auth) == 'teacher' || 
+        getUserRole(request.auth) == 'admin'
+      );
+      
+      // Allow creation of own profile during signup
+      allow create: if isAuthenticated() && request.auth.uid == userId && (request.resource.data.role == 'students' || request.resource.data.role == 'student' || request.resource.data.role == 'pending');
+      
+      // Allow updates to roles based on hierarchy
+      allow update: if isAuthenticated() && (
+        getUserRole(request.auth) == 'admin' || 
+        (
+          getUserRole(request.auth) == 'teacher' && 
+          resource.data.role != 'admin' && 
+          request.resource.data.role != 'admin' &&
+          (request.auth.uid == userId ? request.resource.data.role == resource.data.role : true)
+        ) ||
+        (request.auth.uid == userId && request.resource.data.role == resource.data.role)
+      );
+      
+      allow delete: if isAuthenticated() && (
+        getUserRole(request.auth) == 'admin' || 
+        (getUserRole(request.auth) == 'teacher' && resource.data.role != 'admin')
+      );
+    }
+
+    // Resources Collection
+    match /resources/{resourceId} {
+      allow read: if isAuthenticated() && (
+        getUserRole(request.auth) == 'admin' ||
+        getUserRole(request.auth) == 'teacher' ||
+        getUserRole(request.auth) == 'students' ||
+        getUserRole(request.auth) == 'student'
+      );
+      
+      allow write: if isAuthenticated() && (
+        getUserRole(request.auth) == 'teacher' || 
+        getUserRole(request.auth) == 'admin'
+      );
+    }
+
+    // Robots & Seasons Catalog
+    match /robots/{robotId} {
+      allow read: if true;
+      allow write: if isAuthenticated() && (
+        getUserRole(request.auth) == 'teacher' ||
+        getUserRole(request.auth) == 'admin'
+      );
+    }
+
+    // Blog & Gallery Collections
+    match /blog/{postId} {
+      allow read: if true;
+      allow write: if isAuthenticated() && (
+        getUserRole(request.auth) == 'teacher' || 
+        getUserRole(request.auth) == 'admin'
+      );
+    }
+
+    match /gallery/{photoId} {
+      allow read: if true;
+      allow write: if isAuthenticated() && (
+        getUserRole(request.auth) == 'teacher' || 
+        getUserRole(request.auth) == 'admin'
+      );
+    }
+
+    // Global Settings Collection
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAuthenticated() && (
+        getUserRole(request.auth) == 'teacher' || 
+        getUserRole(request.auth) == 'admin'
+      );
+    }
+
+    // Sponsors Collection
+    match /sponsors/{sponsorId} {
+      allow read: if true;
+      allow write: if isAuthenticated() && (
+        getUserRole(request.auth) == 'teacher' ||
+        getUserRole(request.auth) == 'admin'
+      );
+    }
+
+    // Bento Cards (homepage info grid)
+    match /bento_cards/{cardId} {
+      allow read: if true;
+      allow write: if isAuthenticated() && (
+        getUserRole(request.auth) == 'teacher' ||
+        getUserRole(request.auth) == 'admin'
+      );
+    }
+
+    // Page Content (about, etc.)
+    match /pages/{pageId} {
+      allow read: if true;
+      allow write: if isAuthenticated() && (
+        getUserRole(request.auth) == 'teacher' ||
+        getUserRole(request.auth) == 'admin'
+      );
+    }
+
+    // Team Divisions
+    match /divisions/{divisionId} {
+      allow read: if true;
+      allow write: if isAuthenticated() && (
+        getUserRole(request.auth) == 'teacher' ||
+        getUserRole(request.auth) == 'admin'
+      );
+    }
+
+    // Mentors
+    match /mentors/{mentorId} {
+      allow read: if true;
+      allow write: if isAuthenticated() && (
+        getUserRole(request.auth) == 'teacher' ||
+        getUserRole(request.auth) == 'admin'
+      );
+    }
+  }
+}
