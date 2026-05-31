@@ -121,7 +121,7 @@ export default function Admin() {
 
   return (
     <main className="container" style={{ paddingTop: "40px", paddingBottom: "80px" }} id="admin-page">
-      <div style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.06)", paddingBottom: "16px", marginBottom: "32px" }}>
+      <div style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.06)", paddingBottom: "16px", marginBottom: "32px" }}>
         <h2>成員帳號審核與身份管理</h2>
         <p>新註冊帳號預設為「待審核 (pending)」，無任何操作權限。請在下方審核後指派身份組。</p>
         {users.filter(u => (u.role || "pending") === "pending").length > 0 && (

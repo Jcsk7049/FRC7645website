@@ -137,11 +137,11 @@ export default function About() {
   return (
     <main className="container" style={{ paddingTop: "40px", paddingBottom: "80px" }} id="about-page">
       {/* Hero Header */}
-      <section style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.06)", paddingBottom: "32px", marginBottom: "48px" }}>
+      <section style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.06)", paddingBottom: "32px", marginBottom: "48px" }}>
         <span className="badge">{t("about.badge")}</span>
         <h1 style={{ marginTop: "12px", fontSize: "38px" }}>{t("about.pageTitle")}</h1>
         {contentLoading
-          ? <div style={{ marginTop: "16px", height: "20px", width: "70%", background: "#EAECF0", borderRadius: "6px" }} />
+          ? <div style={{ marginTop: "16px", height: "20px", width: "70%", background: "var(--bg-elevated)", borderRadius: "6px" }} />
           : <p style={{ fontSize: "16px", marginTop: "16px", maxWidth: "760px", lineHeight: "1.7", color: "var(--text-muted)" }}>
               {i18n.language === "en" ? (heroDescEn || heroDesc) : heroDesc}
             </p>
@@ -153,7 +153,7 @@ export default function About() {
         <div style={{ padding: "40px", lineHeight: "1.8", color: "var(--text-main)" }}>
           <h2 style={{ marginBottom: "24px" }}>{t("about.historyTitle")}</h2>
           {contentLoading
-            ? [1,2,3].map(i => <div key={i} style={{ height: "14px", background: "#EAECF0", borderRadius: "4px", marginBottom: "16px", width: i === 3 ? "55%" : "100%" }} />)
+            ? [1,2,3].map(i => <div key={i} style={{ height: "14px", background: "var(--bg-elevated)", borderRadius: "4px", marginBottom: "16px", width: i === 3 ? "55%" : "100%" }} />)
             : paragraphs && paragraphs.map((p, i) => (
                 <p key={i} style={{ marginBottom: i < paragraphs.length - 1 ? "20px" : 0, fontSize: "15px" }}>
                   {i18n.language === "en" ? (paragraphsEn[i] || p) : p}

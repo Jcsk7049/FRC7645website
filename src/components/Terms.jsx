@@ -41,7 +41,7 @@ export default function Terms() {
         </div>
       </section>
 
-      <div style={{ marginTop: "40px", borderTop: "1px solid #E4E7EC", paddingTop: "20px" }}>
+      <div style={{ marginTop: "40px", borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: "20px" }}>
         <Link to="/" className="btn btn-secondary">返回首頁</Link>
       </div>
     </main>

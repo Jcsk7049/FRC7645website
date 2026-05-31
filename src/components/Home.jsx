@@ -203,7 +203,7 @@ export default function Home() {
 
         {/* Loading overlay — covers section until Firestore responds */}
         {homeLoading && (
-          <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "#EAECF0", zIndex: 10, borderRadius: "inherit" }}>
+          <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "#0A0B0E", zIndex: 10, borderRadius: "inherit" }}>
             <div className="spinner" />
           </div>
         )}
@@ -364,7 +364,7 @@ export default function Home() {
       </section>
 
       {/* Dynamic Sponsor Loop Marquee — placed beautifully below the hero */}
-      <section className="marquee-section" style={{ padding: "20px 0", background: "transparent", borderBottom: "1px solid rgba(0, 0, 0, 0.05)" }}>
+      <section className="marquee-section" style={{ padding: "20px 0", background: "transparent", borderBottom: "1px solid rgba(255, 255, 255, 0.05)" }}>
         <div className="marquee-viewport">
           <div className="marquee-track" style={{ animationDuration: `${sponsors.length * 4}s` }}>
             {[...sponsors, ...sponsors].map((sponsor, idx) => (
@@ -386,7 +386,7 @@ export default function Home() {
       <section className="bento-grid">
         {homeLoading
           ? [1,2,3,4,5,6].map(i => (
-              <div key={i} className="bento-card card-size-1x1" style={{ background: "#EAECF0", minHeight: "140px" }} />
+              <div key={i} className="bento-card card-size-1x1" style={{ background: "var(--bg-elevated)", minHeight: "140px", animation: "pulse 1.5s infinite" }} />
             ))
           : null}
         {!homeLoading && bentoCards.map((card) => {
@@ -444,7 +444,7 @@ export default function Home() {
       {/* 3. Robots History Section */}
       {robots.length > 0 && (
         <section className="robots-archive-section">
-          <div style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.06)", paddingBottom: "16px", marginBottom: "32px" }}>
+          <div style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.06)", paddingBottom: "16px", marginBottom: "32px" }}>
             <h2>{t("home.robotsArchiveTitle")}</h2>
           </div>
 

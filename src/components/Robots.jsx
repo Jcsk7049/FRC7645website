@@ -42,7 +42,7 @@ export default function Robots() {
 
   return (
     <main className="container" style={{ paddingTop: "40px", paddingBottom: "80px" }} id="robots-page">
-      <section style={{ borderBottom: "1px solid rgba(0,0,0,0.06)", paddingBottom: "32px", marginBottom: "48px" }}>
+      <section style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.06)", paddingBottom: "32px", marginBottom: "48px" }}>
         <span className="badge">{t("robots.badge")}</span>
         <h1 style={{ marginTop: "12px", fontSize: "38px" }}>{t("robots.pageTitle")}</h1>
         <p style={{ fontSize: "16px", marginTop: "16px", lineHeight: "1.7", color: "var(--text-muted)" }}>
@@ -53,7 +53,7 @@ export default function Robots() {
       {loading ? (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "20px" }}>
           {[1, 2, 3, 4].map(i => (
-            <div key={i} style={{ height: "280px", background: "#F0F2F5", borderRadius: "16px", animation: "pulse 1.5s infinite" }} />
+            <div key={i} style={{ height: "280px", background: "var(--bg-elevated)", borderRadius: "16px", animation: "pulse 1.5s infinite" }} />
           ))}
         </div>
       ) : robots.length === 0 ? (
@@ -64,14 +64,14 @@ export default function Robots() {
             const awards = awardsMap[robot.year] || [];
             return (
               <div key={robot.year} style={{
-                background: "#ffffff", border: "1px solid #E4E7EC", borderRadius: "16px",
+                background: "var(--card-bg)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: "16px",
                 overflow: "hidden", display: "flex", flexDirection: "column",
                 transition: "box-shadow 0.15s, transform 0.15s"
               }}
                 onMouseEnter={e => { e.currentTarget.style.boxShadow = "0 4px 20px rgba(0,0,0,0.10)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
                 onMouseLeave={e => { e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.transform = "none"; }}
               >
-                <div style={{ height: "160px", background: "#F0F2F5", overflow: "hidden", position: "relative" }}>
+                <div style={{ height: "160px", background: "var(--bg-elevated)", overflow: "hidden", position: "relative" }}>
                   {robot.image ? (
                     <img src={robot.image} alt={robot.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                   ) : (

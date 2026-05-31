@@ -10,7 +10,7 @@ function MentorGrid({ mentors, formatPeriod, t, i18n, retired = false }) {
       {mentors.map(mentor => (
         <div key={mentor.id} className="bento-card" style={{ overflow: "hidden", opacity: retired ? 0.8 : 1 }}>
           {mentor.photo && (
-            <div style={{ height: "220px", overflow: "hidden", background: "#EAECF0" }}>
+            <div style={{ height: "220px", overflow: "hidden", background: "var(--bg-elevated)" }}>
               <img src={mentor.photo} alt={mentor.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", filter: retired ? "grayscale(30%)" : "none" }} />
             </div>
           )}
@@ -19,7 +19,7 @@ function MentorGrid({ mentors, formatPeriod, t, i18n, retired = false }) {
               <h3 style={{ fontSize: "20px", fontWeight: 800 }}>{mentor.name}</h3>
               <span style={{
                 fontSize: "10px", fontWeight: 700, padding: "2px 8px", borderRadius: "4px", flexShrink: 0,
-                background: retired ? "#F6F7F9" : "rgba(10,174,232,0.10)",
+                background: retired ? "var(--bg-elevated)" : "rgba(10,174,232,0.10)",
                 color: retired ? "var(--text-muted)" : "var(--accent)"
               }}>
                 {retired ? t("teamMentor.retiredBadge") : t("teamMentor.activeBadge")}
@@ -36,7 +36,7 @@ function MentorGrid({ mentors, formatPeriod, t, i18n, retired = false }) {
               </p>
             )}
             {mentor.bio && (
-              <p style={{ fontSize: "14px", lineHeight: "1.7", color: "var(--text-main)", borderTop: "1px solid #EAECF0", paddingTop: "12px" }}>
+              <p style={{ fontSize: "14px", lineHeight: "1.7", color: "var(--text-main)", borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: "12px" }}>
                 {mentor.bio}
               </p>
             )}
@@ -48,7 +48,7 @@ function MentorGrid({ mentors, formatPeriod, t, i18n, retired = false }) {
                   </a>
                 )}
                 {mentor.phone && (
-                  <a href={`tel:${mentor.phone}`} style={{ fontSize: "12px", color: "var(--text-muted)", textDecoration: "none", background: "#F6F7F9", padding: "4px 10px", borderRadius: "20px", fontWeight: 600 }}>
+                  <a href={`tel:${mentor.phone}`} style={{ fontSize: "12px", color: "var(--text-muted)", textDecoration: "none", background: "var(--bg-elevated)", padding: "4px 10px", borderRadius: "20px", fontWeight: 600 }}>
                     ☎ {mentor.phone}
                   </a>
                 )}
@@ -100,7 +100,7 @@ export default function TeamMentor() {
         ← {t("team.pageTitle")}
       </Link>
 
-      <section style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.06)", paddingBottom: "32px", marginBottom: "48px" }}>
+      <section style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.06)", paddingBottom: "32px", marginBottom: "48px" }}>
         <span className="badge">{t("teamMentor.badge")}</span>
         <h1 style={{ marginTop: "12px", fontSize: "38px" }}>{t("teamMentor.pageTitle")}</h1>
         <p style={{ fontSize: "16px", marginTop: "16px", maxWidth: "680px", lineHeight: "1.7", color: "var(--text-muted)" }}>
@@ -114,7 +114,7 @@ export default function TeamMentor() {
           <p style={{ marginTop: "20px" }}>{t("teamMentor.loading")}</p>
         </div>
       ) : mentors.length === 0 ? (
-        <div style={{ textAlign: "center", padding: "60px 0", color: "var(--text-muted)", background: "#ffffff", borderRadius: "16px", border: "var(--card-border)" }}>
+        <div style={{ textAlign: "center", padding: "60px 0", color: "var(--text-muted)", background: "var(--card-bg)", borderRadius: "16px", border: "var(--card-border)" }}>
           <p>{t("teamMentor.noMentors")}</p>
         </div>
       ) : (

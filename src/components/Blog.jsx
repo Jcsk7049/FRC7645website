@@ -110,7 +110,7 @@ export default function Blog() {
 
   return (
     <main className="container" style={{ paddingTop: "40px", paddingBottom: "80px" }} id="blog-page">
-      <div style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.06)", paddingBottom: "16px", marginBottom: "32px" }}>
+      <div style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.06)", paddingBottom: "16px", marginBottom: "32px" }}>
         <span className="badge">{t("blog.badge")}</span>
         <h2 style={{ marginTop: "12px" }}>{t("blog.pageTitle")}</h2>
         <p>{t("blog.pageDesc")}</p>
@@ -132,7 +132,7 @@ export default function Blog() {
 
       {/* Blog Feed Grid */}
       {filteredPosts.length === 0 ? (
-        <div style={{ textAlign: "center", padding: "60px 0", color: "var(--text-muted)", background: "#ffffff", borderRadius: "16px", border: "var(--card-border)" }}>
+        <div style={{ textAlign: "center", padding: "60px 0", color: "var(--text-muted)", background: "var(--card-bg)", borderRadius: "16px", border: "var(--card-border)" }}>
           <p>{t("blog.noPostsInCategory")}</p>
         </div>
       ) : (
@@ -141,8 +141,8 @@ export default function Blog() {
             <article
               key={post.id}
               style={{
-                background: "#ffffff",
-                border: "1px solid #E4E7EC",
+                background: "var(--card-bg)",
+                border: "1px solid rgba(255,255,255,0.06)",
                 borderRadius: "16px",
                 overflow: "hidden",
                 boxShadow: "var(--card-shadow)",
@@ -150,7 +150,7 @@ export default function Blog() {
                 flexDirection: "column"
               }}
             >
-              <div style={{ height: "240px", overflow: "hidden", background: "#EAECF0", position: "relative" }}>
+              <div style={{ height: "240px", overflow: "hidden", background: "var(--bg-elevated)", position: "relative" }}>
                 <img src={post.image} alt={post.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 <span
                   style={{

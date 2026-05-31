@@ -71,7 +71,7 @@ export default function Navbar({ divisions = [] }) {
       <div className="container nav-flex">
         {/* Left Brand Logo */}
         <Link to="/" className="logo" id="nav-logo" onClick={() => setIsMobileMenuOpen(false)} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <img src="/logo.png" alt="FRC 7645 Logo" style={{ height: "30px", width: "30px", borderRadius: "50%", objectFit: "cover", border: "1px solid rgba(0, 0, 0, 0.06)" }} />
+          <img src="/logo.png" alt="FRC 7645 Logo" style={{ height: "30px", width: "30px", borderRadius: "50%", objectFit: "cover", border: "1px solid rgba(255, 255, 255, 0.06)" }} />
           <span>FRC</span> 7645
         </Link>
 
@@ -155,8 +155,8 @@ export default function Navbar({ divisions = [] }) {
                   position: "absolute",
                   left: 0,
                   top: "calc(100% + 10px)",
-                  background: "#ffffff",
-                  border: "1px solid #E4E7EC",
+                  background: "var(--bg-elevated)",
+                  border: "1px solid rgba(255,255,255,0.08)",
                   borderRadius: "12px",
                   boxShadow: "0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)",
                   minWidth: "180px",
@@ -220,7 +220,7 @@ export default function Navbar({ divisions = [] }) {
             className="lang-toggle-btn"
             style={{
               background: "none",
-              border: "1px solid #E4E7EC",
+              border: "1px solid rgba(255,255,255,0.08)",
               borderRadius: "20px",
               padding: "6px 12px",
               fontSize: "12px",
@@ -248,7 +248,7 @@ export default function Navbar({ divisions = [] }) {
                   cursor: "pointer",
                   borderRadius: "20px",
                   fontSize: "13px",
-                  background: showDropdown ? "#F6F7F9" : "transparent"
+                  background: showDropdown ? "rgba(255,255,255,0.06)" : "transparent"
                 }}
               >
                 <span>{user.displayName || t("nav.memberPortal")}</span>
@@ -274,8 +274,8 @@ export default function Navbar({ divisions = [] }) {
                     position: "absolute",
                     right: 0,
                     top: "calc(100% + 6px)",
-                    background: "#ffffff",
-                    border: "1px solid #E4E7EC",
+                    background: "var(--bg-elevated)",
+                    border: "1px solid rgba(255,255,255,0.08)",
                     borderRadius: "12px",
                     boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)",
                     minWidth: "220px",
@@ -285,7 +285,7 @@ export default function Navbar({ divisions = [] }) {
                     flexDirection: "column"
                   }}
                 >
-                  <div style={{ padding: "12px 16px", borderBottom: "1px solid #EAECF0", fontSize: "12px" }}>
+                  <div style={{ padding: "12px 16px", borderBottom: "1px solid rgba(255,255,255,0.06)", fontSize: "12px" }}>
                     <div style={{ fontWeight: 700, color: "#111111" }}>{user.displayName || "FRC 7645"}</div>
                     <div style={{ color: "#5C5C6A", fontSize: "11px", marginTop: "2px", wordBreak: "break-all" }}>{user.email}</div>
                   </div>

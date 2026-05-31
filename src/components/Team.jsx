@@ -154,11 +154,11 @@ export default function Team() {
   return (
     <main className="container" style={{ paddingTop: "40px", paddingBottom: "80px" }} id="team-page">
       {/* Hero Header */}
-      <section style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.06)", paddingBottom: "32px", marginBottom: "48px" }}>
+      <section style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.06)", paddingBottom: "32px", marginBottom: "48px" }}>
         <span className="badge">{t("team.badge")}</span>
         <h1 style={{ marginTop: "12px", fontSize: "38px" }}>{t("team.pageTitle")}</h1>
         {contentLoading
-          ? <div style={{ marginTop: "16px", height: "20px", width: "70%", background: "#EAECF0", borderRadius: "6px" }} />
+          ? <div style={{ marginTop: "16px", height: "20px", width: "70%", background: "var(--bg-elevated)", borderRadius: "6px", animation: "pulse 1.5s infinite" }} />
           : <p style={{ fontSize: "16px", marginTop: "16px", maxWidth: "760px", lineHeight: "1.7", color: "var(--text-muted)" }}>
               {i18n.language === "en" ? (heroDescEn || heroDesc) : heroDesc}
             </p>
@@ -170,7 +170,7 @@ export default function Team() {
         <div style={{ padding: "40px", lineHeight: "1.8", color: "var(--text-main)" }}>
           <h2 style={{ marginBottom: "24px" }}>{t("team.historyTitle")}</h2>
           {contentLoading
-            ? [1,2,3].map(i => <div key={i} style={{ height: "14px", background: "#EAECF0", borderRadius: "4px", marginBottom: "16px", width: i === 3 ? "55%" : "100%" }} />)
+            ? [1,2,3].map(i => <div key={i} style={{ height: "14px", background: "var(--bg-elevated)", borderRadius: "4px", animation: "pulse 1.5s infinite", marginBottom: "16px", width: i === 3 ? "55%" : "100%" }} />)
             : paragraphs && paragraphs.map((p, i) => (
                 <p key={i} style={{ marginBottom: i < paragraphs.length - 1 ? "20px" : 0, fontSize: "15px" }}>
                   {i18n.language === "en" ? (paragraphsEn[i] || p) : p}
@@ -213,7 +213,7 @@ export default function Team() {
                   onMouseLeave={e => e.currentTarget.style.boxShadow = ""}
                 >
                   {div.coverImage && (
-                    <div style={{ height: "160px", overflow: "hidden", background: "#EAECF0" }}>
+                    <div style={{ height: "160px", overflow: "hidden", background: "var(--bg-elevated)" }}>
                       <img src={div.coverImage} alt={div.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                     </div>
                   )}
@@ -245,18 +245,18 @@ export default function Team() {
         {timelineLoading ? (
           <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
             {[1, 2, 3].map(i => (
-              <div key={i} style={{ height: "80px", background: "#F0F2F5", borderRadius: "12px", animation: "pulse 1.5s infinite" }} />
+              <div key={i} style={{ height: "80px", background: "var(--bg-elevated)", borderRadius: "12px", animation: "pulse 1.5s infinite" }} />
             ))}
           </div>
         ) : (
-          <div style={{ position: "relative", paddingLeft: "32px", borderLeft: "2px solid #E4E7EC" }}>
+          <div style={{ position: "relative", paddingLeft: "32px", borderLeft: "2px solid rgba(255, 255, 255, 0.08)" }}>
             {timeline.map((entry) => (
               <div key={entry.year} style={{ marginBottom: "40px", position: "relative" }}>
                 <div style={{
                   position: "absolute", left: "-42px", top: "6px",
                   width: "16px", height: "16px", borderRadius: "50%",
-                  background: entry.competed ? "var(--accent)" : "#CBD5E1",
-                  border: "3px solid #F6F7F9",
+                  background: entry.competed ? "var(--accent)" : "var(--text-subtle)",
+                  border: "3px solid var(--bg)",
                   boxShadow: entry.awards.some(a => a.award_type === 1) ? "0 0 0 3px rgba(10,174,232,0.2)" : "none"
                 }} />
                 <div style={{ display: "flex", alignItems: "baseline", gap: "12px", flexWrap: "wrap", marginBottom: "10px" }}>
@@ -286,7 +286,7 @@ export default function Team() {
                   <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: entry.awards.length > 0 ? "10px" : "0" }}>
                     {entry.events.map((event, i) => (
                       <a key={i} href={`https://www.thebluealliance.com/event/${event.key}`} target="_blank" rel="noopener noreferrer"
-                        style={{ fontSize: "13px", fontWeight: 600, color: "var(--text-main)", background: "#F0F2F5", padding: "4px 12px", borderRadius: "6px", textDecoration: "none", border: "1px solid #E4E7EC" }}>
+                        style={{ fontSize: "13px", fontWeight: 600, color: "var(--text-main)", background: "var(--bg-elevated)", padding: "4px 12px", borderRadius: "6px", textDecoration: "none", border: "1px solid rgba(255,255,255,0.08)" }}>
                         {event.name}
                       </a>
                     ))}
@@ -299,7 +299,7 @@ export default function Team() {
                         fontSize: "12px", fontWeight: 700, padding: "4px 10px", borderRadius: "6px",
                         background: award.award_type <= 2 ? "rgba(10,174,232,0.12)" : "#FFF",
                         color: award.award_type <= 2 ? "var(--accent)" : "var(--text-main)",
-                        border: award.award_type <= 2 ? "1px solid rgba(10,174,232,0.25)" : "1px solid #E4E7EC"
+                        border: award.award_type <= 2 ? "1px solid rgba(10,174,232,0.25)" : "1px solid rgba(255,255,255,0.08)"
                       }}>
                         {award.name}
                       </span>
