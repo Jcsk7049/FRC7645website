@@ -203,7 +203,7 @@ export default function Home() {
 
         {/* Loading overlay — covers section until Firestore responds */}
         {homeLoading && (
-          <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "#0A0B0E", zIndex: 10, borderRadius: "inherit" }}>
+          <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg-elevated)", zIndex: 10, borderRadius: "inherit" }}>
             <div className="spinner" />
           </div>
         )}

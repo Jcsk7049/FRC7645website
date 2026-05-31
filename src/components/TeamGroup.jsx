@@ -69,7 +69,7 @@ export default function TeamGroup() {
           </div>
         )}
 
-        <header style={{ marginBottom: "32px", paddingBottom: "24px", borderBottom: "1px solid rgba(255, 255, 255, 0.06)" }}>
+        <header style={{ marginBottom: "32px", paddingBottom: "24px", borderBottom: "1px solid rgba(26, 22, 18, 0.06)" }}>
           <span className="badge">{t("team.badge")}</span>
           <h1 style={{ fontSize: "38px", lineHeight: "1.2", marginTop: "12px" }}>{name}</h1>
         </header>

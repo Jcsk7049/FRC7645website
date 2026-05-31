@@ -71,7 +71,7 @@ export default function Contact() {
 
   return (
     <main className="container" style={{ paddingTop: "40px", paddingBottom: "80px" }} id="contact-page">
-      <section style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.06)", paddingBottom: "32px", marginBottom: "48px" }}>
+      <section style={{ borderBottom: "1px solid rgba(26, 22, 18, 0.06)", paddingBottom: "32px", marginBottom: "48px" }}>
         <span className="badge">{t("contact.badge")}</span>
         <h1 style={{ marginTop: "12px", fontSize: "38px" }}>{t("contact.pageTitle")}</h1>
         <p style={{ fontSize: "16px", marginTop: "16px", maxWidth: "800px", lineHeight: "1.6", color: "var(--text-muted)" }}>
@@ -156,7 +156,7 @@ export default function Contact() {
           </p>
 
           {showTiers && tiers && tiers.length > 0 && (
-            <div style={{ borderTop: "1px dashed rgba(255,255,255,0.08)", paddingTop: "20px" }}>
+            <div style={{ borderTop: "1px dashed rgba(26, 22, 18, 0.08)", paddingTop: "20px" }}>
               <h4 style={{ fontSize: "15px", fontWeight: 700, marginBottom: "12px" }}>{t("contact.tiersTitle")}</h4>
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                 {tiers.map(({ tier, amount, desc }) => (

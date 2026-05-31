@@ -36,7 +36,7 @@ function MentorGrid({ mentors, formatPeriod, t, i18n, retired = false }) {
               </p>
             )}
             {mentor.bio && (
-              <p style={{ fontSize: "14px", lineHeight: "1.7", color: "var(--text-main)", borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: "12px" }}>
+              <p style={{ fontSize: "14px", lineHeight: "1.7", color: "var(--text-main)", borderTop: "1px solid rgba(26, 22, 18, 0.06)", paddingTop: "12px" }}>
                 {mentor.bio}
               </p>
             )}
@@ -100,7 +100,7 @@ export default function TeamMentor() {
         ← {t("team.pageTitle")}
       </Link>
 
-      <section style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.06)", paddingBottom: "32px", marginBottom: "48px" }}>
+      <section style={{ borderBottom: "1px solid rgba(26, 22, 18, 0.06)", paddingBottom: "32px", marginBottom: "48px" }}>
         <span className="badge">{t("teamMentor.badge")}</span>
         <h1 style={{ marginTop: "12px", fontSize: "38px" }}>{t("teamMentor.pageTitle")}</h1>
         <p style={{ fontSize: "16px", marginTop: "16px", maxWidth: "680px", lineHeight: "1.7", color: "var(--text-muted)" }}>

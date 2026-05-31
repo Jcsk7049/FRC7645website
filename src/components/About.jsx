@@ -137,7 +137,7 @@ export default function About() {
   return (
     <main className="container" style={{ paddingTop: "40px", paddingBottom: "80px" }} id="about-page">
       {/* Hero Header */}
-      <section style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.06)", paddingBottom: "32px", marginBottom: "48px" }}>
+      <section style={{ borderBottom: "1px solid rgba(26, 22, 18, 0.06)", paddingBottom: "32px", marginBottom: "48px" }}>
         <span className="badge">{t("about.badge")}</span>
         <h1 style={{ marginTop: "12px", fontSize: "38px" }}>{t("about.pageTitle")}</h1>
         {contentLoading

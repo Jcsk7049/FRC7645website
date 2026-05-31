@@ -110,7 +110,7 @@ export default function Blog() {
 
   return (
     <main className="container" style={{ paddingTop: "40px", paddingBottom: "80px" }} id="blog-page">
-      <div style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.06)", paddingBottom: "16px", marginBottom: "32px" }}>
+      <div style={{ borderBottom: "1px solid rgba(26, 22, 18, 0.06)", paddingBottom: "16px", marginBottom: "32px" }}>
         <span className="badge">{t("blog.badge")}</span>
         <h2 style={{ marginTop: "12px" }}>{t("blog.pageTitle")}</h2>
         <p>{t("blog.pageDesc")}</p>
@@ -142,7 +142,7 @@ export default function Blog() {
               key={post.id}
               style={{
                 background: "var(--card-bg)",
-                border: "1px solid rgba(255,255,255,0.06)",
+                border: "1px solid rgba(26, 22, 18, 0.06)",
                 borderRadius: "16px",
                 overflow: "hidden",
                 boxShadow: "var(--card-shadow)",

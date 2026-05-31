@@ -154,7 +154,7 @@ export default function Team() {
   return (
     <main className="container" style={{ paddingTop: "40px", paddingBottom: "80px" }} id="team-page">
       {/* Hero Header */}
-      <section style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.06)", paddingBottom: "32px", marginBottom: "48px" }}>
+      <section style={{ borderBottom: "1px solid rgba(26, 22, 18, 0.06)", paddingBottom: "32px", marginBottom: "48px" }}>
         <span className="badge">{t("team.badge")}</span>
         <h1 style={{ marginTop: "12px", fontSize: "38px" }}>{t("team.pageTitle")}</h1>
         {contentLoading
@@ -249,7 +249,7 @@ export default function Team() {
             ))}
           </div>
         ) : (
-          <div style={{ position: "relative", paddingLeft: "32px", borderLeft: "2px solid rgba(255, 255, 255, 0.08)" }}>
+          <div style={{ position: "relative", paddingLeft: "32px", borderLeft: "2px solid #D8D3C8" }}>
             {timeline.map((entry) => (
               <div key={entry.year} style={{ marginBottom: "40px", position: "relative" }}>
                 <div style={{
@@ -286,7 +286,7 @@ export default function Team() {
                   <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: entry.awards.length > 0 ? "10px" : "0" }}>
                     {entry.events.map((event, i) => (
                       <a key={i} href={`https://www.thebluealliance.com/event/${event.key}`} target="_blank" rel="noopener noreferrer"
-                        style={{ fontSize: "13px", fontWeight: 600, color: "var(--text-main)", background: "var(--bg-elevated)", padding: "4px 12px", borderRadius: "6px", textDecoration: "none", border: "1px solid rgba(255,255,255,0.08)" }}>
+                        style={{ fontSize: "13px", fontWeight: 600, color: "var(--text-main)", background: "var(--bg-elevated)", padding: "4px 12px", borderRadius: "6px", textDecoration: "none", border: "1px solid rgba(26, 22, 18, 0.08)" }}>
                         {event.name}
                       </a>
                     ))}
@@ -299,7 +299,7 @@ export default function Team() {
                         fontSize: "12px", fontWeight: 700, padding: "4px 10px", borderRadius: "6px",
                         background: award.award_type <= 2 ? "rgba(10,174,232,0.12)" : "#FFF",
                         color: award.award_type <= 2 ? "var(--accent)" : "var(--text-main)",
-                        border: award.award_type <= 2 ? "1px solid rgba(10,174,232,0.25)" : "1px solid rgba(255,255,255,0.08)"
+                        border: award.award_type <= 2 ? "1px solid rgba(10,174,232,0.25)" : "1px solid rgba(26, 22, 18, 0.08)"
                       }}>
                         {award.name}
                       </span>

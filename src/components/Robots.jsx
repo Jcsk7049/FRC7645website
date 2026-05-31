@@ -42,7 +42,7 @@ export default function Robots() {
 
   return (
     <main className="container" style={{ paddingTop: "40px", paddingBottom: "80px" }} id="robots-page">
-      <section style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.06)", paddingBottom: "32px", marginBottom: "48px" }}>
+      <section style={{ borderBottom: "1px solid rgba(26, 22, 18, 0.06)", paddingBottom: "32px", marginBottom: "48px" }}>
         <span className="badge">{t("robots.badge")}</span>
         <h1 style={{ marginTop: "12px", fontSize: "38px" }}>{t("robots.pageTitle")}</h1>
         <p style={{ fontSize: "16px", marginTop: "16px", lineHeight: "1.7", color: "var(--text-muted)" }}>
@@ -64,7 +64,7 @@ export default function Robots() {
             const awards = awardsMap[robot.year] || [];
             return (
               <div key={robot.year} style={{
-                background: "var(--card-bg)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: "16px",
+                background: "var(--card-bg)", border: "1px solid rgba(26, 22, 18, 0.06)", borderRadius: "16px",
                 overflow: "hidden", display: "flex", flexDirection: "column",
                 transition: "box-shadow 0.15s, transform 0.15s"
               }}

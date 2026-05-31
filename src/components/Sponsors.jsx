@@ -79,7 +79,7 @@ export default function Sponsors() {
 
   return (
     <main className="container" style={{ paddingTop: "40px", paddingBottom: "80px" }} id="sponsors-page">
-      <section style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.06)", paddingBottom: "32px", marginBottom: "48px" }}>
+      <section style={{ borderBottom: "1px solid rgba(26, 22, 18, 0.06)", paddingBottom: "32px", marginBottom: "48px" }}>
         <span className="badge">{t("sponsors.badge")}</span>
         <h1 style={{ marginTop: "12px", fontSize: "38px" }}>{t("sponsors.pageTitle")}</h1>
         <p style={{ fontSize: "16px", marginTop: "16px", maxWidth: "800px", lineHeight: "1.6" }}>
@@ -95,13 +95,13 @@ export default function Sponsors() {
           );
           return sponsor.url ? (
             <a key={sIdx} href={sponsor.url} target="_blank" rel="noopener noreferrer" className="bento-card"
-              style={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "24px", height: "160px", background: "var(--card-bg)", border: "1px solid rgba(255,255,255,0.06)", textDecoration: "none", transition: "box-shadow 0.15s" }}
+              style={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "24px", height: "160px", background: "var(--card-bg)", border: "1px solid rgba(26, 22, 18, 0.06)", textDecoration: "none", transition: "box-shadow 0.15s" }}
               onMouseEnter={e => e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.10)"}
               onMouseLeave={e => e.currentTarget.style.boxShadow = "none"}>
               {inner}
             </a>
           ) : (
-            <div key={sIdx} className="bento-card" style={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "24px", height: "160px", background: "var(--card-bg)", border: "1px solid rgba(255,255,255,0.06)" }}>
+            <div key={sIdx} className="bento-card" style={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "24px", height: "160px", background: "var(--card-bg)", border: "1px solid rgba(26, 22, 18, 0.06)" }}>
               {inner}
             </div>
           );
