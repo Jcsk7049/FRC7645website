@@ -130,6 +130,18 @@ export default function CMS() {
   const [sponsorTier, setSponsorTier] = useState("");
   const [sponsorSubmitLoading, setSponsorSubmitLoading] = useState(false);
 
+  const [financeEntries, setFinanceEntries] = useState([]);
+  const [financeEditId, setFinanceEditId] = useState("");
+  const [financeEditReceipt, setFinanceEditReceipt] = useState("");
+  const [financeType, setFinanceType] = useState("income");
+  const [financeDate, setFinanceDate] = useState("");
+  const [financeTitle, setFinanceTitle] = useState("");
+  const [financeCategory, setFinanceCategory] = useState("贊助");
+  const [financeAmount, setFinanceAmount] = useState("");
+  const [financeNote, setFinanceNote] = useState("");
+  const [financeReceiptFile, setFinanceReceiptFile] = useState(null);
+  const [financeSubmitLoading, setFinanceSubmitLoading] = useState(false);
+
   // Robots
   const [robots, setRobots] = useState([]);
   const [robotYear, setRobotYear] = useState("");
@@ -265,6 +277,16 @@ export default function CMS() {
     } catch (err) { console.warn(err); }
   };
 
+  const fetchFinance = async () => {
+    try {
+      const snap = await getDocs(collection(db, "finance"));
+      const list = [];
+      snap.forEach(d => list.push({ id: d.id, ...d.data() }));
+      list.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+      setFinanceEntries(list);
+    } catch (err) { console.warn(err); }
+  };
+
   const fetchRobots = async () => {
     try {
       const snap = await getDocs(collection(db, "robots"));
@@ -348,12 +370,13 @@ export default function CMS() {
       if (currentUser) {
         try {
           const docSnap = await getDoc(doc(db, "users", currentUser.uid));
-          const role = docSnap.exists() ? (docSnap.data().role || "pending") : "pending";
+          const role = docSnap.exists() ? (docSnap.data().role || "visitor") : "visitor";
           if (role === "students" || role === "teacher" || role === "admin") {
             await Promise.all([
               fetchBlogPosts(), fetchCarousel(), fetchBentoCards(),
               fetchSponsors(), fetchRobots(), fetchSocials(),
-              fetchAbout(), fetchContact(), fetchDivisions(), fetchMentors()
+              fetchAbout(), fetchContact(), fetchDivisions(), fetchMentors(),
+              fetchFinance()
             ]);
           } else {
             navigate("/");
@@ -593,6 +616,68 @@ export default function CMS() {
     catch (err) { console.error(err); alert("刪除失敗。"); }
   };
 
+  const resetFinanceForm = () => {
+    setFinanceEditId(""); setFinanceEditReceipt(""); setFinanceType("income");
+    setFinanceDate(""); setFinanceTitle(""); setFinanceCategory("贊助");
+    setFinanceAmount(""); setFinanceNote(""); setFinanceReceiptFile(null);
+    const fi = document.getElementById("finance-receipt-input"); if (fi) fi.value = "";
+  };
+
+  const handleFinanceEditLoad = (entry) => {
+    setFinanceEditId(entry.id); setFinanceEditReceipt(entry.receiptUrl || "");
+    setFinanceType(entry.type || "income"); setFinanceDate(entry.date || "");
+    setFinanceTitle(entry.title || ""); setFinanceCategory(entry.category || "贊助");
+    setFinanceAmount(entry.amount != null ? String(entry.amount) : "");
+    setFinanceNote(entry.note || ""); setFinanceReceiptFile(null);
+    document.getElementById("finance-form-section")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleFinanceSubmit = async (e) => {
+    e.preventDefault();
+    if (!financeDate || !financeTitle || !financeAmount) { alert("請填寫日期、項目名稱與金額！"); return; }
+    setFinanceSubmitLoading(true);
+    try {
+      const id = financeEditId || "finance_" + Date.now();
+      const receiptUrl = financeReceiptFile ? await handleUpload(financeReceiptFile, "finance", id) : financeEditReceipt;
+      await setDoc(doc(db, "finance", id), {
+        id,
+        type: financeType,
+        date: financeDate,
+        title: financeTitle,
+        category: financeCategory,
+        amount: Number(financeAmount),
+        note: financeNote,
+        receiptUrl,
+        createdBy: auth.currentUser?.uid || "",
+        createdAt: financeEditId ? (financeEntries.find(f => f.id === financeEditId)?.createdAt || new Date().toISOString()) : new Date().toISOString()
+      });
+      alert(financeEditId ? "收支紀錄更新成功！" : "收支紀錄新增成功！");
+      resetFinanceForm();
+      await fetchFinance();
+    } catch (err) { console.error(err); alert("儲存失敗。"); }
+    finally { setFinanceSubmitLoading(false); }
+  };
+
+  const handleFinanceDelete = async (id) => {
+    if (!window.confirm("確定要刪除此筆收支紀錄嗎？")) return;
+    try { await deleteDoc(doc(db, "finance", id)); if (financeEditId === id) resetFinanceForm(); await fetchFinance(); }
+    catch (err) { console.error(err); alert("刪除失敗。"); }
+  };
+
+  const handleFinanceExportCsv = () => {
+    const header = ["日期", "類型", "項目", "類別", "金額", "備註"];
+    const rows = financeEntries.map(en => [
+      en.date || "", en.type === "income" ? "收入" : "支出", en.title || "", en.category || "", en.amount ?? 0, (en.note || "").replace(/\n/g, " ")
+    ]);
+    const csv = [header, ...rows].map(r => r.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(",")).join("\r\n");
+    const blob = new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = `財務收支紀錄_${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const handlePacketSave = async (e) => {
     e.preventDefault();
     if (!packetFile && !packetUrl) { alert("請選擇 PDF 檔案或清除現有連結。"); return; }
@@ -825,6 +910,7 @@ export default function CMS() {
     { id: "robots", label: "歷年機器人" },
     { id: "blog", label: "活動花絮" },
     { id: "sponsors", label: "合作夥伴" },
+    { id: "finance", label: "財務管理" },
     { id: "about", label: "隊伍總覽" },
     { id: "divisions", label: "組別管理" },
     { id: "mentors", label: "指導老師" },
@@ -1246,6 +1332,157 @@ export default function CMS() {
             </div>
           </div>
         )}
+
+        {/* ====== FINANCE ====== */}
+        {activeTab === "finance" && (() => {
+          const totalIncome = financeEntries.filter(e => e.type === "income").reduce((sum, e) => sum + (Number(e.amount) || 0), 0);
+          const totalExpense = financeEntries.filter(e => e.type === "expense").reduce((sum, e) => sum + (Number(e.amount) || 0), 0);
+          const balance = totalIncome - totalExpense;
+          const categoryTotals = {};
+          financeEntries.forEach(en => {
+            const key = en.category || "其他";
+            categoryTotals[key] = (categoryTotals[key] || 0) + (Number(en.amount) || 0);
+          });
+          const maxCategoryTotal = Math.max(1, ...Object.values(categoryTotals));
+          const fmt = (n) => `NT$ ${Number(n || 0).toLocaleString("zh-TW")}`;
+
+          return (
+            <div style={V_STACK}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px" }}>
+                <div style={{ ...PANEL, padding: "20px" }}>
+                  <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 600 }}>總收入</div>
+                  <div style={{ fontSize: "24px", fontWeight: 800, color: "#15803d", marginTop: "6px" }}>{fmt(totalIncome)}</div>
+                </div>
+                <div style={{ ...PANEL, padding: "20px" }}>
+                  <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 600 }}>總支出</div>
+                  <div style={{ fontSize: "24px", fontWeight: 800, color: "#ef4444", marginTop: "6px" }}>{fmt(totalExpense)}</div>
+                </div>
+                <div style={{ ...PANEL, padding: "20px" }}>
+                  <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 600 }}>結餘</div>
+                  <div style={{ fontSize: "24px", fontWeight: 800, color: balance >= 0 ? "var(--text-main)" : "#ef4444", marginTop: "6px" }}>{fmt(balance)}</div>
+                </div>
+              </div>
+
+              <div style={PANEL}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+                  <h3>收支紀錄 ({financeEntries.length})</h3>
+                  <button type="button" onClick={handleFinanceExportCsv} disabled={financeEntries.length === 0}
+                    style={{ fontSize: "12px", padding: "6px 14px", border: "1px solid #0AAEE8", borderRadius: "6px", background: "rgba(10,174,232,0.06)", color: "#0AAEE8", cursor: "pointer", fontWeight: 700 }}>
+                    📊 匯出 CSV
+                  </button>
+                </div>
+                {financeEntries.length === 0
+                  ? <p style={{ color: "var(--text-muted)", fontSize: "14px" }}>尚無收支紀錄。</p>
+                  : <div style={{ display: "flex", flexDirection: "column", gap: "10px", maxHeight: "420px", overflowY: "auto" }}>
+                      {financeEntries.map(entry => (
+                        <div key={entry.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 14px", border: `1px solid ${financeEditId === entry.id ? "var(--accent)" : "#EAECF0"}`, borderRadius: "10px", background: financeEditId === entry.id ? "rgba(10,174,232,0.04)" : "#fff", gap: "12px" }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: "12px", flex: 1, minWidth: 0 }}>
+                            <span style={{ fontSize: "11px", fontWeight: 700, padding: "3px 8px", borderRadius: "6px", flexShrink: 0, background: entry.type === "income" ? "#dcfce7" : "#fee2e2", color: entry.type === "income" ? "#15803d" : "#ef4444" }}>
+                              {entry.type === "income" ? "收入" : "支出"}
+                            </span>
+                            <div style={{ minWidth: 0 }}>
+                              <div style={{ fontSize: "14px", fontWeight: 700, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{entry.title}</div>
+                              <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "2px" }}>{entry.date} · {entry.category}{entry.receiptUrl ? " · 已附收據" : ""}</div>
+                            </div>
+                          </div>
+                          <div style={{ fontSize: "15px", fontWeight: 800, color: entry.type === "income" ? "#15803d" : "#ef4444", flexShrink: 0 }}>
+                            {entry.type === "income" ? "+" : "-"}{fmt(entry.amount)}
+                          </div>
+                          <div style={{ display: "flex", gap: "6px", flexShrink: 0 }}>
+                            {entry.receiptUrl && <a href={entry.receiptUrl} target="_blank" rel="noopener noreferrer" style={EDIT_BTN}>收據</a>}
+                            <button onClick={() => handleFinanceEditLoad(entry)} style={EDIT_BTN}>編輯</button>
+                            <button onClick={() => handleFinanceDelete(entry.id)} style={DEL_BTN}>刪除</button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                }
+              </div>
+
+              <div style={PANEL} id="finance-form-section">
+                <h3 style={{ marginBottom: "20px" }}>{financeEditId ? "編輯收支紀錄" : "新增收支紀錄"}</h3>
+                <form onSubmit={handleFinanceSubmit}>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "16px" }}>
+                    <div className="form-group">
+                      <label>收支類型</label>
+                      <select value={financeType} onChange={e => setFinanceType(e.target.value)} className="role-select" style={{ width: "100%", padding: "12px" }}>
+                        <option value="income">收入</option>
+                        <option value="expense">支出</option>
+                      </select>
+                    </div>
+                    <div className="form-group">
+                      <label>日期</label>
+                      <input type="date" value={financeDate} onChange={e => setFinanceDate(e.target.value)} required />
+                    </div>
+                    <div className="form-group">
+                      <label>金額 (NT$)</label>
+                      <input type="number" min="0" step="1" placeholder="例如：5000" value={financeAmount} onChange={e => setFinanceAmount(e.target.value)} required />
+                    </div>
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+                    <div className="form-group">
+                      <label>項目名稱</label>
+                      <input type="text" placeholder="例如：鑽石級贊助 - OO公司" value={financeTitle} onChange={e => setFinanceTitle(e.target.value)} required />
+                    </div>
+                    <div className="form-group">
+                      <label>類別</label>
+                      <select value={financeCategory} onChange={e => setFinanceCategory(e.target.value)} className="role-select" style={{ width: "100%", padding: "12px" }}>
+                        <option value="贊助">贊助</option>
+                        <option value="比賽報名">比賽報名</option>
+                        <option value="零件採購">零件採購</option>
+                        <option value="交通">交通</option>
+                        <option value="場地與住宿">場地與住宿</option>
+                        <option value="其他">其他</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+                    <div className="form-group">
+                      <label>備註 (選填)</label>
+                      <input type="text" placeholder="補充說明" value={financeNote} onChange={e => setFinanceNote(e.target.value)} />
+                    </div>
+                    <div className="form-group">
+                      <label>收據附件 (選填，圖片或 PDF){financeEditId ? "（不選則保留原附件）" : ""}</label>
+                      {financeEditId && financeEditReceipt && (
+                        <a href={financeEditReceipt} target="_blank" rel="noopener noreferrer" style={{ fontSize: "12px", color: "#0AAEE8", display: "block", marginBottom: "6px" }}>目前附件（點擊預覽）</a>
+                      )}
+                      <input type="file" id="finance-receipt-input" accept="image/*,application/pdf" onChange={e => setFinanceReceiptFile(e.target.files[0])} />
+                      <ProgressBar folder="finance" />
+                    </div>
+                  </div>
+                  <div style={{ display: "flex", gap: "10px" }}>
+                    <button type="submit" disabled={financeSubmitLoading} className="btn btn-primary" style={{ padding: "12px 28px" }}>
+                      {financeSubmitLoading ? "儲存中..." : financeEditId ? "更新紀錄" : "新增紀錄"}
+                    </button>
+                    {financeEditId && (
+                      <button type="button" className="btn btn-outline" onClick={resetFinanceForm}>取消編輯</button>
+                    )}
+                  </div>
+                </form>
+              </div>
+
+              <div style={PANEL}>
+                <h3 style={{ marginBottom: "20px" }}>類別佔比（依收支總額）</h3>
+                {Object.keys(categoryTotals).length === 0
+                  ? <p style={{ color: "var(--text-muted)", fontSize: "14px" }}>尚無資料可供統計。</p>
+                  : <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                      {Object.entries(categoryTotals).sort((a, b) => b[1] - a[1]).map(([category, total]) => (
+                        <div key={category}>
+                          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "13px", marginBottom: "4px" }}>
+                            <span style={{ fontWeight: 600 }}>{category}</span>
+                            <span style={{ color: "var(--text-muted)" }}>{fmt(total)}</span>
+                          </div>
+                          <div style={{ height: "8px", background: "#EAECF0", borderRadius: "4px", overflow: "hidden" }}>
+                            <div style={{ height: "100%", width: `${(total / maxCategoryTotal) * 100}%`, background: "var(--accent)", borderRadius: "4px" }} />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                }
+              </div>
+            </div>
+          );
+        })()}
 
         {/* ====== ROBOTS ====== */}
         {activeTab === "robots" && (

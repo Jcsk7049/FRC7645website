@@ -16,7 +16,8 @@
     "logout": "Sign Out",
     "roleAdmin": "Admin",
     "roleTeacher": "Teacher",
-    "roleStudent": "Student"
+    "roleStudent": "Student",
+    "roleVisitor": "Visitor"
   },
   "robots": {
     "pageTitle": "Our Robots",

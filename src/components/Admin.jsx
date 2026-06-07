@@ -6,13 +6,13 @@ import { useNavigate } from "react-router-dom";
 
 export default function Admin() {
   const [isAdmin, setIsAdmin] = useState(false);
-  const [myRole, setMyRole] = useState("students");
+  const [myRole, setMyRole] = useState("visitor");
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(null);
   const navigate = useNavigate();
 
-  const ROLE_ORDER = { pending: 0, students: 1, teacher: 2, admin: 3 };
+  const ROLE_ORDER = { pending: 0, visitor: 0, students: 1, teacher: 2, admin: 3 };
 
   const fetchUsers = async () => {
     try {
@@ -35,7 +35,7 @@ export default function Admin() {
           const userDocRef = doc(db, "users", currentUser.uid);
           const docSnap = await getDoc(userDocRef);
           
-          const role = docSnap.exists() ? (docSnap.data().role || "pending") : "pending";
+          const role = docSnap.exists() ? (docSnap.data().role || "visitor") : "visitor";
           setMyRole(role);
 
           if (role === "teacher" || role === "admin") {
@@ -123,10 +123,10 @@ export default function Admin() {
     <main className="container" style={{ paddingTop: "40px", paddingBottom: "80px" }} id="admin-page">
       <div style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.06)", paddingBottom: "16px", marginBottom: "32px" }}>
         <h2>成員帳號審核與身份管理</h2>
-        <p>新註冊帳號預設為「待審核 (pending)」，無任何操作權限。請在下方審核後指派身份組。</p>
-        {users.filter(u => (u.role || "pending") === "pending").length > 0 && (
+        <p>新註冊帳號預設為「旅客 (visitor)」，僅能瀏覽網站、無編輯權限。請在下方視需要指派正式身份組。</p>
+        {users.filter(u => (u.role || "visitor") === "pending").length > 0 && (
           <div style={{ marginTop: "12px", padding: "10px 14px", background: "#FEF3C7", border: "1px solid #FCD34D", borderRadius: "8px", fontSize: "13px", color: "#92400E", fontWeight: 600 }}>
-            ⚠ 有 {users.filter(u => (u.role || "pending") === "pending").length} 位成員待審核，請指派身份組。
+            ⚠ 有 {users.filter(u => (u.role || "visitor") === "pending").length} 位成員為舊版「待審核」帳號，請指派正式身份組。
           </div>
         )}
       </div>
@@ -149,12 +149,15 @@ export default function Admin() {
                 <td>
                   <select
                     className="role-select"
-                    value={user.role || "pending"}
+                    value={user.role || "visitor"}
                     disabled={actionLoading === user.uid || (user.role === "admin" && myRole !== "admin")}
                     onChange={(e) => handleRoleChange(user.uid, e.target.value)}
-                    style={(user.role || "pending") === "pending" ? { borderColor: "#FCD34D", background: "#FFFBEB" } : {}}
+                    style={(user.role || "visitor") === "pending" ? { borderColor: "#FCD34D", background: "#FFFBEB" } : {}}
                   >
-                    <option value="pending">待審核 (pending)</option>
+                    {(user.role || "visitor") === "pending" && (
+                      <option value="pending">待審核 (pending，舊版)</option>
+                    )}
+                    <option value="visitor">旅客 (visitor)</option>
                     <option value="students">學生 (students)</option>
                     <option value="teacher">指導老師 (teacher)</option>
                     {(myRole === "admin" || user.role === "admin") && (

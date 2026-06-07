@@ -13,8 +13,8 @@ service cloud.firestore {
 
     function getUserRole(auth) {
       return exists(/databases/$(database)/documents/users/$(auth.uid))
-        ? getUserData(auth).role 
-        : 'students';
+        ? getUserData(auth).role
+        : 'visitor';
     }
 
     // User Roles Collection
@@ -26,7 +26,7 @@ service cloud.firestore {
       );
       
       // Allow creation of own profile during signup
-      allow create: if isAuthenticated() && request.auth.uid == userId && (request.resource.data.role == 'students' || request.resource.data.role == 'student' || request.resource.data.role == 'pending');
+      allow create: if isAuthenticated() && request.auth.uid == userId && request.resource.data.role == 'visitor';
       
       // Allow updates to roles based on hierarchy
       allow update: if isAuthenticated() && (
@@ -135,6 +135,18 @@ service cloud.firestore {
     // Mentors
     match /mentors/{mentorId} {
       allow read: if true;
+      allow write: if isAuthenticated() && (
+        getUserRole(request.auth) == 'teacher' ||
+        getUserRole(request.auth) == 'admin'
+      );
+    }
+
+    // Finance / Business Plan (income & expense records)
+    match /finance/{entryId} {
+      allow read: if isAuthenticated() && (
+        getUserRole(request.auth) == 'teacher' ||
+        getUserRole(request.auth) == 'admin'
+      );
       allow write: if isAuthenticated() && (
         getUserRole(request.auth) == 'teacher' ||
         getUserRole(request.auth) == 'admin'

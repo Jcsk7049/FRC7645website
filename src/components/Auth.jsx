@@ -27,7 +27,7 @@ export default function Auth() {
         uid: user.uid,
         email: user.email,
         displayName: user.displayName || defaultName || "New Member",
-        role: "pending",
+        role: "visitor",
         createdAt: new Date().toISOString()
       });
     }

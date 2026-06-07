@@ -255,14 +255,15 @@ export default function Navbar({ divisions = [] }) {
                 <span style={{
                   fontSize: "10px",
                   fontWeight: 700,
-                  background: role === "admin" ? "#fef3c7" : role === "teacher" ? "#fee2e2" : "#dcfce7",
-                  color: role === "admin" ? "#b45309" : role === "teacher" ? "#ef4444" : "#15803d",
+                  background: role === "admin" ? "#fef3c7" : role === "teacher" ? "#fee2e2" : role === "visitor" ? "#e5e7eb" : "#dcfce7",
+                  color: role === "admin" ? "#b45309" : role === "teacher" ? "#ef4444" : role === "visitor" ? "#4b5563" : "#15803d",
                   padding: "2px 6px",
                   borderRadius: "4px"
                 }}>
                   {role === "admin" && t("nav.roleAdmin")}
                   {role === "teacher" && t("nav.roleTeacher")}
                   {(role === "students" || role === "student") && t("nav.roleStudent")}
+                  {role === "visitor" && t("nav.roleVisitor")}
                 </span>
                 <span style={{ fontSize: "9px", opacity: 0.7 }}>▼</span>
               </button>

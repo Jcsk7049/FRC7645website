@@ -16,7 +16,8 @@
     "logout": "登出成員專區",
     "roleAdmin": "管理員",
     "roleTeacher": "老師",
-    "roleStudent": "學生"
+    "roleStudent": "學生",
+    "roleVisitor": "旅客"
   },
   "robots": {
     "pageTitle": "歷年機器人",
