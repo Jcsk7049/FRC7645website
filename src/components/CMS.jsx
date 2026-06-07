@@ -924,13 +924,13 @@ export default function CMS() {
         <span style={{ fontSize: "28px" }}>🖥️</span>
         <h3 style={{ marginTop: "12px", fontSize: "18px", fontWeight: 700 }}>請使用電腦或平板操作</h3>
         <p style={{ marginTop: "8px", fontSize: "14px", color: "var(--text-muted)", lineHeight: "1.6", maxWidth: "260px" }}>
-          內容管理中心需要較大的螢幕空間。請切換至電腦或平板瀏覽器以使用 CMS 後台。
+          管理中心需要較大的螢幕空間。請切換至電腦或平板瀏覽器以使用 CMS 後台。
         </p>
       </div>
 
       <div className="cms-desktop-content">
         <div style={{ borderBottom: "1px solid rgba(0,0,0,0.06)", paddingBottom: "16px", marginBottom: "28px" }}>
-          <h2>內容管理中心</h2>
+          <h2>管理中心</h2>
           <p>管理網站各頁面內容、媒體資源與發布設定。藍色欄位為英文版本，可點「自動翻譯」填入。</p>
         </div>
 
