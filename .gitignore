@@ -26,6 +26,8 @@ dist-ssr
 # Firebase
 .firebase/
 
+# Wrangler / Cloudflare 本機快取（本專案不使用 Cloudflare Pages）
+.wrangler/
 
 .env
 
