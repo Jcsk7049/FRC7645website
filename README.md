@@ -199,6 +199,20 @@ firebase deploy --only hosting
 firebase deploy --only firestore:rules
 ```
 
+### 自動部署（不用電腦也能更新網站）
+
+`.github/workflows/deploy.yml` 設定了自動部署：**只要有東西推進 `master`，GitHub Actions 就會自動打包並部署到 Firebase Hosting**。也可以在 GitHub 網頁的 Actions 分頁按 **Run workflow** 手動觸發（手機瀏覽器就能操作）。
+
+需要在 repo 的 Settings → Secrets and variables → Actions 設定這些 secret：
+
+| Secret 名稱 | 從哪裡拿 |
+|---|---|
+| `VITE_FIREBASE_API_KEY` 等 7 個 `VITE_FIREBASE_*` | Firebase Console → 專案設定 → 你的應用程式 → SDK 設定與配置 |
+| `VITE_TBA_KEY` | https://www.thebluealliance.com/account |
+| `FIREBASE_SERVICE_ACCOUNT` | Google Cloud Console → IAM → 服務帳戶，建立含「Firebase Hosting 管理員」角色的金鑰，貼上整份 JSON |
+
+workflow 會在部署前檢查打包結果有沒有帶到 Firebase 設定值 —— 缺了的話網站會是全白的（`getAuth()` 拋 `auth/invalid-api-key`，React 掛不上去），所以寧可讓 CI 失敗也不會蓋掉線上網站。
+
 ---
 
 ## CMS 內容管理

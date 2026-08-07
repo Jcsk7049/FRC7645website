@@ -1,0 +1,67 @@
+name: Deploy to Firebase Hosting
+
+# 推到 master 就自動部署；也可以在 GitHub 網頁上手動觸發（Actions 分頁 → Run workflow）
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # 缺了 Firebase 設定值 build 出來的網站會是全白的（getAuth() 會拋
+      # auth/invalid-api-key，React 掛不上去），所以先擋下來而不是部署上去
+      - name: Check required secrets
+        env:
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
+        run: |
+          missing=""
+          for name in VITE_FIREBASE_API_KEY VITE_FIREBASE_PROJECT_ID VITE_FIREBASE_APP_ID; do
+            [ -z "${!name}" ] && missing="$missing $name"
+          done
+          if [ -n "$missing" ]; then
+            echo "::error::缺少必要的 repository secret:$missing"
+            echo "請到 Settings → Secrets and variables → Actions 補上後重跑。"
+            exit 1
+          fi
+
+      - run: npm ci
+
+      - name: Build
+        env:
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
+          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
+          VITE_FIREBASE_MEASUREMENT_ID: ${{ secrets.VITE_FIREBASE_MEASUREMENT_ID }}
+          VITE_TBA_KEY: ${{ secrets.VITE_TBA_KEY }}
+        run: npm run build
+
+      # 保險：Vite 找不到環境變數時會把它編譯成 void 0，
+      # 這種打包結果部署上去就是白畫面，寧可讓 CI 失敗也不要蓋掉線上網站
+      - name: Verify build output
+        run: |
+          if grep -Eq "apiKey: ?void 0" dist/assets/*.js; then
+            echo "::error::打包結果裡的 Firebase apiKey 是空的，部署會造成白畫面，已中止。"
+            exit 1
+          fi
+
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: team7645
+          channelId: live
