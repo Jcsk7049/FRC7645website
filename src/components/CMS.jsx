@@ -218,9 +218,9 @@ export default function CMS() {
   const [contactSaveLoading, setContactSaveLoading] = useState(false);
 
   const DEFAULT_TIERS = [
-    { key: "diamond", tier: "鑽石級", amount: "$5,000+ USD", desc: "主機甲最大面積 Logo、全套文宣、社群媒體特別致謝" },
-    { key: "gold",    tier: "黃金級", amount: "$2,000+ USD", desc: "機甲中型 Logo、隊服印製、網站首頁 Logo" },
-    { key: "silver",  tier: "白銀級", amount: "$500+ USD",   desc: "機身精緻 Logo、網站首頁 Logo" },
+    { key: "diamond", tier: "鑽石級", amount: "NT$ 5,000+", desc: "主機甲最大面積 Logo、全套文宣、社群媒體特別致謝" },
+    { key: "gold",    tier: "黃金級", amount: "NT$ 2,000+", desc: "機甲中型 Logo、隊服印製、網站首頁 Logo" },
+    { key: "silver",  tier: "白銀級", amount: "NT$ 500+",   desc: "機身精緻 Logo、網站首頁 Logo" },
   ];
   const [showSponsorTiers, setShowSponsorTiers] = useState(true);
   const [sponsorTiers, setSponsorTiers] = useState(DEFAULT_TIERS);
@@ -1304,7 +1304,7 @@ export default function CMS() {
                       <input type="text" value={t.tier} onChange={e => { const n = [...sponsorTiers]; n[i] = { ...n[i], tier: e.target.value }; setSponsorTiers(n); }} />
                     </div>
                     <div className="form-group" style={{ marginBottom: 0 }}>
-                      <label>金額 / 門檻</label>
+                      <label>金額 / 門檻（新台幣 NT$）</label>
                       <input type="text" value={t.amount} onChange={e => { const n = [...sponsorTiers]; n[i] = { ...n[i], amount: e.target.value }; setSponsorTiers(n); }} />
                     </div>
                   </div>

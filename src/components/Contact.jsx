@@ -11,9 +11,9 @@ const DEFAULT_CONTACT = {
   city: "臺北市"
 };
 const DEFAULT_TIERS = [
-  { tier: "鑽石級", amount: "$5,000+ USD", desc: "主機甲最大面積 Logo、全套文宣、社群媒體特別致謝" },
-  { tier: "黃金級", amount: "$2,000+ USD", desc: "機甲中型 Logo、隊服印製、網站首頁 Logo" },
-  { tier: "白銀級", amount: "$500+ USD", desc: "機身精緻 Logo、網站首頁 Logo" },
+  { tier: "鑽石級", amount: "NT$ 5,000+", desc: "主機甲最大面積 Logo、全套文宣、社群媒體特別致謝" },
+  { tier: "黃金級", amount: "NT$ 2,000+", desc: "機甲中型 Logo、隊服印製、網站首頁 Logo" },
+  { tier: "白銀級", amount: "NT$ 500+", desc: "機身精緻 Logo、網站首頁 Logo" },
 ];
 
 export default function Contact() {
